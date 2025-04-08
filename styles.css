@@ -14,13 +14,22 @@ body {
 .layer {
     position: absolute;
     border-radius: 50%;
-    border: 2px solid #000;
+    border: 2px solid #333; /* Darker border for a rugged look */
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     font-size: 14px;
     text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Add depth to text */
+    /* Add a subtle noise texture */
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQEBAAAAgiD/r25IQAEAAAAAAAAAAAD8AydcA3eIAAAAAElFTkSuQmCC');
+    background-blend-mode: overlay;
+}
+
+/* Core layer glow effect */
+.layer.core-glow {
+    box-shadow: 0 0 20px 5px rgba(255, 165, 0, 0.8), inset 0 0 10px 2px rgba(255, 165, 0, 0.5);
 }
 
 #customSpectrums, #generator {
@@ -40,12 +49,12 @@ input[type="text"] {
 
 button {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #4A7043; /* Moss Green for the button */
     color: white;
     border: none;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #3A5A34;
 }
