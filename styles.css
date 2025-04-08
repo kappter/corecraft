@@ -5,8 +5,8 @@ body {
 }
 
 #coreViz {
-    width: 500px;
-    height: 500px;
+    width: 400px; /* Reduced size since we’re removing the arc labels */
+    height: 400px;
     margin: 20px auto;
     position: relative;
 }
@@ -24,45 +24,14 @@ body {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQEBAAAAgiD/r25IQAEAAAAAAAAAAAD8AydcA3eIAAAAAElFTkSuQmCC');
     background-blend-mode: overlay;
-    cursor: pointer; /* Indicate the layer is interactive */
+    /* Add slight transparency to ensure overlapping layers are visible */
+    opacity: 0.9;
+    /* Ensure layers are stacked correctly */
+    z-index: 7; /* Will be adjusted dynamically in JavaScript */
 }
 
 .layer.core-glow {
     box-shadow: 0 0 20px 5px rgba(255, 165, 0, 0.8), inset 0 0 10px 2px rgba(255, 165, 0, 0.5);
-}
-
-/* Tooltip styles for flyout text */
-.layer .tooltip {
-    visibility: hidden;
-    width: 200px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    text-align: center;
-    border-radius: 5px;
-    padding: 5px;
-    position: absolute;
-    z-index: 1;
-    bottom: 110%; /* Position above the layer */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.layer:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Style for the arc labels */
-.label {
-    position: absolute;
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid #333;
-    white-space: nowrap;
 }
 
 #customSpectrums, #generator {
