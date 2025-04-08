@@ -31,12 +31,50 @@ const questions = [
     "How do they connect with others?"
 ];
 
-// Generate a character
-function generateCharacter() {
-    const name = document.getElementById("charName").value || "Unnamed";
-    const coreSlider = document.getElementById("coreSlider").value;
+// Total points to distribute across all layers
+const TOTAL_POINTS = 700;
 
-    // Collect user-defined spectrums
+// Convert slider value (-100 to 100) to points (0 to 200)
+function sliderToPoints(value) {
+    return parseInt(value) + 100; // -100 -> 0, 0 -> 100, 100 -> 200
+}
+
+// Update sliders to balance points
+function updateSliders() {
+    const sliders = [
+        document.getElementById("coreSlider"),
+        document.getElementById("slider0"),
+        document.getElementById("slider1"),
+        document.getElementById("slider2"),
+        document.getElementById("slider3"),
+        document.getElementById("slider4"),
+        document.getElementById("slider5")
+    ];
+
+    // Calculate current total points
+    let totalPoints = 0;
+    const points = sliders.map(slider => sliderToPoints(slider.value));
+    totalPoints = points.reduce((sum, p) => sum + p, 0);
+
+    // If total points exceed 700, redistribute the excess
+    if (totalPoints !== TOTAL_POINTS) {
+        const excess = totalPoints - TOTAL_POINTS;
+        const numSliders = sliders.length;
+        const adjustment = excess / (numSliders - 1); // Distribute among other sliders
+
+        // Adjust all sliders except the one that triggered the change
+        const activeSlider = document.activeElement;
+        sliders.forEach((slider, index) => {
+            if (slider !== activeSlider) {
+                let newPoints = points[index] - adjustment;
+                newPoints = Math.max(0, Math.min(200, newPoints)); // Clamp between 0 and 200
+                slider.value = newPoints - 100; // Convert back to slider value
+            }
+        });
+    }
+
+    // Update visualization
+    const name = document.getElementById("charName").value || "Unnamed";
     const spectrums = [];
     for (let i = 0; i < 6; i++) {
         const left = document.getElementById(`left${i}`).value || `Left${i}`;
@@ -45,37 +83,48 @@ function generateCharacter() {
         const value = document.getElementById(`slider${i}`).value;
         spectrums.push({ left, right, middle, value });
     }
-
-    // Display core visualization
-    displayCore(coreSlider, spectrums);
-    // Display questions
+    displayCore(sliders[0].value, spectrums);
     displayQuestions(name, spectrums);
 }
 
+// Generate a character
+function generateCharacter() {
+    updateSliders(); // Use the same logic as slider update
+}
+
 // Visualize the character's core
-function displayCore(coreSlider, spectrums) {
+function displayCore(coreSliderValue, spectrums) {
     const viz = document.getElementById("coreViz");
     viz.innerHTML = "";
 
+    // Calculate points for each layer
+    const sliderValues = [
+        coreSliderValue,
+        ...spectrums.map(s => s.value)
+    ].map(value => parseInt(value));
+
+    const points = sliderValues.map(sliderToPoints);
+
     // All layers (core + 6 user-defined)
     const layers = [
-        { label: `${chakraNames[0]}: ${coreSlider < 0 ? "Fearful" : coreSlider > 0 ? "Secure" : "Stable"}`, value: coreSlider },
+        { label: `${chakraNames[0]}: ${coreSliderValue < 0 ? "Fearful" : coreSliderValue > 0 ? "Secure" : "Stable"}`, points: points[0] },
         ...spectrums.map((s, i) => ({
             label: `${chakraNames[i + 1]}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle}`,
-            value: s.value
+            points: points[i + 1]
         }))
     ];
 
     layers.forEach((layer, index) => {
-        // Base size for each layer
-        const baseSize = 400 - (index * 50); // Starting size decreases outward
-        // Adjust thickness based on slider value (-100 to 100)
-        const thicknessAdjustment = (layer.value / 100) * 40; // Scale thickness
-        const size = baseSize + thicknessAdjustment;
+        // Scale the layer size based on points (0 to 200 points)
+        const baseSize = 400; // Maximum size of the outermost layer
+        const minSize = 50; // Minimum size for the innermost layer
+        const sizeRange = (baseSize - minSize) / 7; // Size increment per layer
+        const baseLayerSize = minSize + (index * sizeRange); // Base size increases outward
+        const scaleFactor = layer.points / 100; // 0 points -> 0x size, 100 points -> 1x size, 200 points -> 2x size
+        const size = baseLayerSize * scaleFactor;
 
         const div = document.createElement("div");
         div.className = "layer";
-        // Add glow effect to the core layer
         if (index === 0) {
             div.classList.add("core-glow");
         }
