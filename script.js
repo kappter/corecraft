@@ -114,13 +114,14 @@ function displayCore(coreSliderValue, spectrums) {
         }))
     ];
 
+    // Display the layers
     layers.forEach((layer, index) => {
         // Scale the layer size based on points (0 to 200 points)
-        const baseSize = 400; // Maximum size of the outermost layer
-        const minSize = 50; // Minimum size for the innermost layer
-        const sizeRange = (baseSize - minSize) / 7; // Size increment per layer
-        const baseLayerSize = minSize + (index * sizeRange); // Base size increases outward
-        const scaleFactor = layer.points / 100; // 0 points -> 0x size, 100 points -> 1x size, 200 points -> 2x size
+        const baseSize = 400;
+        const minSize = 50;
+        const sizeRange = (baseSize - minSize) / 7;
+        const baseLayerSize = minSize + (index * sizeRange);
+        const scaleFactor = layer.points / 100;
         const size = baseLayerSize * scaleFactor;
 
         const div = document.createElement("div");
@@ -133,8 +134,30 @@ function displayCore(coreSliderValue, spectrums) {
         div.style.top = `${(400 - size) / 2}px`;
         div.style.left = `${(400 - size) / 2}px`;
         div.style.backgroundColor = chakraColors[index];
-        div.innerText = layer.label;
+        // Remove the label from inside the layer
         viz.appendChild(div);
+    });
+
+    // Add labels on an arc
+    const radius = 250; // Radius of the arc (outside the outermost layer)
+    const centerX = 250; // Center of the visualization
+    const centerY = 250;
+    layers.forEach((layer, index) => {
+        // Calculate the angle for this label (evenly spaced around the circle)
+        const angle = (index / layers.length) * 2 * Math.PI - Math.PI / 2; // Start at the top (-90 degrees)
+        const x = centerX + radius * Math.cos(angle) - 50; // Adjust for label width
+        const y = centerY + radius * Math.sin(angle) - 10; // Adjust for label height
+
+        const labelDiv = document.createElement("div");
+        labelDiv.className = "label";
+        labelDiv.innerText = layer.label;
+        labelDiv.style.left = `${x}px`;
+        labelDiv.style.top = `${y}px`;
+        labelDiv.style.color = chakraColors[index]; // Match the label color to the layer
+        // Rotate the label to align with the arc
+        const rotation = (angle * 180 / Math.PI) + 90; // Adjust rotation for readability
+        labelDiv.style.transform = `rotate(${rotation}deg)`;
+        viz.appendChild(labelDiv);
     });
 }
 
