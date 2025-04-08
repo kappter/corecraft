@@ -1,12 +1,12 @@
-// Chakra colors
+// Earthy chakra colors
 const chakraColors = [
-    "#FF0000", // Red (Root Chakra) - Core
-    "#FFA500", // Orange (Sacral Chakra)
-    "#FFFF00", // Yellow (Solar Plexus Chakra)
-    "#008000", // Green (Heart Chakra)
-    "#0000FF", // Blue (Throat Chakra)
-    "#4B0082", // Indigo (Third Eye Chakra)
-    "#EE82EE"  // Violet (Crown Chakra)
+    "#8B0000", // Deep Rust Red (Root Chakra) - Core
+    "#E97451", // Burnt Sienna (Sacral Chakra)
+    "#DAA520", // Sandy Ochre (Solar Plexus Chakra)
+    "#4A7043", // Moss Green (Heart Chakra)
+    "#4682B4", // Slate Blue (Throat Chakra)
+    "#2F2F5A", // Deep Shale Indigo (Third Eye Chakra)
+    "#836479"  // Dusty Mauve (Crown Chakra)
 ];
 
 // Chakra names for reference
@@ -75,6 +75,10 @@ function displayCore(coreSlider, spectrums) {
 
         const div = document.createElement("div");
         div.className = "layer";
+        // Add glow effect to the core layer
+        if (index === 0) {
+            div.classList.add("core-glow");
+        }
         div.style.width = `${size}px`;
         div.style.height = `${size}px`;
         div.style.top = `${(400 - size) / 2}px`;
