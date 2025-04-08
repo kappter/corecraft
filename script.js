@@ -121,8 +121,8 @@ function displayCore(coreSliderValue, spectrums) {
         const minSize = 50;
         const sizeRange = (baseSize - minSize) / 7;
         const baseLayerSize = minSize + (index * sizeRange);
-        const scaleFactor = layer.points / 100; // 0 points -> 0x, 100 points -> 1x, 200 points -> 2x
-        const minLayerSize = 20; // Minimum size to ensure visibility
+        const scaleFactor = layer.points / 100;
+        const minLayerSize = 20;
         const size = Math.max(minLayerSize, baseLayerSize * scaleFactor);
 
         const div = document.createElement("div");
@@ -156,7 +156,7 @@ function displayCore(coreSliderValue, spectrums) {
 
         const labelDiv = document.createElement("div");
         labelDiv.className = "label";
-        labelDiv.innerText = chakraNames[index]; // Simplified to just the chakra name
+        labelDiv.innerText = chakraNames[index];
         labelDiv.style.left = `${x}px`;
         labelDiv.style.top = `${y}px`;
         labelDiv.style.color = chakraColors[index];
@@ -178,4 +178,49 @@ function displayQuestions(name, spectrums) {
         p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer${index}" placeholder="Type your answer">`;
         details.appendChild(p);
     });
+}
+
+// Function to navigate to the summary page
+function goToSummary() {
+    const name = document.getElementById("charName").value || "Unnamed";
+    const sliders = [
+        document.getElementById("coreSlider"),
+        document.getElementById("slider0"),
+        document.getElementById("slider1"),
+        document.getElementById("slider2"),
+        document.getElementById("slider3"),
+        document.getElementById("slider4"),
+        document.getElementById("slider5")
+    ];
+    const sliderValues = sliders.map(slider => slider.value);
+    const points = sliderValues.map(sliderToPoints);
+
+    const spectrums = [];
+    for (let i = 0; i < 6; i++) {
+        const left = document.getElementById(`left${i}`).value || `Left${i}`;
+        const right = document.getElementById(`right${i}`).value || `Right${i}`;
+        const middle = document.getElementById(`middle${i}`).value || `Middle${i}`;
+        const value = document.getElementById(`slider${i}`).value;
+        spectrums.push({ left, right, middle, value });
+    }
+
+    // Collect answers to questions
+    const answers = [];
+    questions.forEach((_, index) => {
+        const answer = document.getElementById(`answer${index}`)?.value || "";
+        answers.push(answer);
+    });
+
+    // Store character data in localStorage
+    const characterData = {
+        name,
+        sliderValues,
+        points,
+        spectrums,
+        answers
+    };
+    localStorage.setItem("characterData", JSON.stringify(characterData));
+
+    // Navigate to the summary page
+    window.location.href = "summary.html";
 }
