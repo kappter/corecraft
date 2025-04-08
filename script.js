@@ -9,6 +9,17 @@ const chakraColors = [
     "#EE82EE"  // Violet (Crown Chakra)
 ];
 
+// Chakra names for reference
+const chakraNames = [
+    "Root Chakra (Survival)",
+    "Sacral Chakra (Creativity)",
+    "Solar Plexus Chakra (Power)",
+    "Heart Chakra (Love)",
+    "Throat Chakra (Communication)",
+    "Third Eye Chakra (Intuition)",
+    "Crown Chakra (Spirituality)"
+];
+
 // Core questions to reveal character
 const questions = [
     "What is their greatest strength?",
@@ -19,23 +30,6 @@ const questions = [
     "What’s their moral breaking point?",
     "How do they connect with others?"
 ];
-
-// Initialize user-defined spectrums
-function initializeSpectrums() {
-    const spectrumInputs = document.getElementById("spectrumInputs");
-    for (let i = 0; i < 6; i++) {
-        const div = document.createElement("div");
-        div.innerHTML = `
-            <h3>Spectrum ${i + 1}</h3>
-            <input type="text" id="left${i}" placeholder="Left End (e.g., Anger)">
-            <input type="range" id="slider${i}" min="-100" max="100" value="0">
-            <input type="text" id="right${i}" placeholder="Right End (e.g., Calm)">
-            <br>
-            <input type="text" id="middle${i}" placeholder="Middle (e.g., Tempered)">
-        `;
-        spectrumInputs.appendChild(div);
-    }
-}
 
 // Generate a character
 function generateCharacter() {
@@ -65,9 +59,9 @@ function displayCore(coreSlider, spectrums) {
 
     // All layers (core + 6 user-defined)
     const layers = [
-        { label: `Core: ${coreSlider < 0 ? "Dark" : coreSlider > 0 ? "Light" : "Neutral"}`, value: coreSlider },
+        { label: `${chakraNames[0]}: ${coreSlider < 0 ? "Fearful" : coreSlider > 0 ? "Secure" : "Stable"}`, value: coreSlider },
         ...spectrums.map((s, i) => ({
-            label: `${s.left} - ${s.right}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle}`,
+            label: `${chakraNames[i + 1]}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle}`,
             value: s.value
         }))
     ];
@@ -96,7 +90,7 @@ function displayQuestions(name, spectrums) {
     const details = document.getElementById("questions");
     details.innerHTML = `<h3>${name}'s Core Profile</h3>`;
     spectrums.forEach((s, i) => {
-        details.innerHTML += `<p><strong>Spectrum ${i + 1}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value}</p>`;
+        details.innerHTML += `<p><strong>${chakraNames[i + 1]}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value}</p>`;
     });
     questions.forEach((q, index) => {
         const p = document.createElement("p");
@@ -104,6 +98,3 @@ function displayQuestions(name, spectrums) {
         details.appendChild(p);
     });
 }
-
-// Initialize the app
-window.onload = initializeSpectrums;
