@@ -135,35 +135,13 @@ function displayCore(coreSliderValue, spectrums) {
         div.style.top = `${(400 - size) / 2}px`;
         div.style.left = `${(400 - size) / 2}px`;
         div.style.backgroundColor = chakraColors[index];
-
-        // Add tooltip with detailed label
-        const tooltip = document.createElement("div");
-        tooltip.className = "tooltip";
-        tooltip.innerText = layer.label;
-        div.appendChild(tooltip);
+        // Set z-index to ensure innermost layer is on top
+        div.style.zIndex = 7 - index; // Innermost layer (index 0) gets z-index 7, outermost gets 1
 
         viz.appendChild(div);
     });
 
-    // Add labels on an arc (simplified to just chakra names)
-    const radius = 250;
-    const centerX = 250;
-    const centerY = 250;
-    layers.forEach((layer, index) => {
-        const angle = (index / layers.length) * 2 * Math.PI - Math.PI / 2;
-        const x = centerX + radius * Math.cos(angle) - 50;
-        const y = centerY + radius * Math.sin(angle) - 10;
-
-        const labelDiv = document.createElement("div");
-        labelDiv.className = "label";
-        labelDiv.innerText = chakraNames[index];
-        labelDiv.style.left = `${x}px`;
-        labelDiv.style.top = `${y}px`;
-        labelDiv.style.color = chakraColors[index];
-        const rotation = (angle * 180 / Math.PI) + 90;
-        labelDiv.style.transform = `rotate(${rotation}deg)`;
-        viz.appendChild(labelDiv);
-    });
+    // Remove arc labels and tooltips (no text overlays)
 }
 
 // Display questions and answers section
