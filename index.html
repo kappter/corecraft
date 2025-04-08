@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Character Forge</title>
+    <title>CoreCraft</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Character Forge</h1>
+    <h1>CoreCraft</h1>
     <div id="generator">
-        <button onclick="generateCharacter()">Generate Character</button>
         <input type="text" id="charName" placeholder="Character Name (optional)">
+        <h2>Core Value Spectrum</h2>
+        <label>Dark <input type="range" id="coreSlider" min="-100" max="100" value="0"> Light</label>
+        <p>Balance: Neutral</p>
     </div>
+    <div id="customSpectrums">
+        <h2>Define Your Spectrums</h2>
+        <!-- User-defined spectrums -->
+        <div id="spectrumInputs"></div>
+    </div>
+    <button onclick="generateCharacter()">Generate Character</button>
     <div id="coreViz"></div>
     <div id="details">
         <h2>Character Details</h2>
