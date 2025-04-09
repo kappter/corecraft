@@ -1,4 +1,4 @@
-// Earthy chakra colors (same as in script.js)
+// Earthy chakra colors
 const chakraColors = [
     "#8B0000", // Deep Rust Red (Root Chakra) - Core
     "#E97451", // Burnt Sienna (Sacral Chakra)
@@ -51,17 +51,16 @@ spectrums.forEach((s, i) => {
     chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${points[i + 1]} points)</p>`;
 });
 
-// Display answers to questions
-chakraProfile.innerHTML += `<h3>Character Details</h3>`;
-characterData.answers.forEach((answer, index) => {
-    if (answer) {
-        chakraProfile.innerHTML += `<p><strong>${questions[index]}</strong> ${answer}</p>`;
-    }
+// Display questions for user input
+const details = document.getElementById("questions");
+questions.forEach((q, index) => {
+    const p = document.createElement("p");
+    p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer${index}" placeholder="Type your answer">`;
+    details.appendChild(p);
 });
 
 // Function to generate random defaults for historical information
 function generateRandomDefaults() {
-    // Random region
     const regions = [
         "North America", "South America", "Europe", "Africa", "Asia", "Australia", "Antarctica",
         "Southeast Asia", "Western Europe", "East Africa", "Central America", "Middle East"
@@ -69,30 +68,24 @@ function generateRandomDefaults() {
     const randomRegion = regions[Math.floor(Math.random() * regions.length)];
     document.getElementById("region").value = randomRegion;
 
-    // Random year of birth (1900 to 2025)
     const yearOfBirth = Math.floor(Math.random() * (2025 - 1900 + 1)) + 1900;
     document.getElementById("yearOfBirth").value = yearOfBirth;
 
-    // Random mother's age at birth (18 to 45)
     const motherAge = Math.floor(Math.random() * (45 - 18 + 1)) + 18;
     document.getElementById("motherAge").value = motherAge;
 
-    // Random father's age at birth (18 to 50)
     const fatherAge = Math.floor(Math.random() * (50 - 18 + 1)) + 18;
     document.getElementById("fatherAge").value = fatherAge;
 
-    // Random number of siblings (0 to 5)
     const siblings = Math.floor(Math.random() * 6);
     document.getElementById("siblings").value = siblings;
 
-    // Random education level
     const educationLevels = [
         "None", "Elementary School", "High School", "College Degree", "Advanced Degree"
     ];
     const randomEducation = educationLevels[Math.floor(Math.random() * educationLevels.length)];
     document.getElementById("education").value = randomEducation;
 
-    // Random significant life events
     const lifeEvents = [
         `Moved to a new city at age ${Math.floor(Math.random() * 20) + 5}`,
         `Lost a parent at age ${Math.floor(Math.random() * 20) + 5}`,
@@ -101,7 +94,7 @@ function generateRandomDefaults() {
         `Started a business at age ${Math.floor(Math.random() * 20) + 20}`,
         `Experienced a major illness at age ${Math.floor(Math.random() * 30) + 10}`
     ];
-    const numEvents = Math.floor(Math.random() * 2) + 1; // 1 or 2 events
+    const numEvents = Math.floor(Math.random() * 2) + 1;
     const randomEvents = [];
     for (let i = 0; i < numEvents; i++) {
         const event = lifeEvents[Math.floor(Math.random() * lifeEvents.length)];
@@ -112,7 +105,7 @@ function generateRandomDefaults() {
     document.getElementById("lifeEvents").value = randomEvents.join("\n");
 }
 
-// Call the function to populate defaults when the page loads
+// Call the function to populate defaults
 generateRandomDefaults();
 
 // Handle form submission
@@ -129,17 +122,35 @@ document.getElementById("historicalForm").addEventListener("submit", function(ev
         lifeEvents: document.getElementById("lifeEvents").value
     };
 
-    // Combine character data with historical data
+    // Collect answers to questions
+    const answers = [];
+    questions.forEach((_, index) => {
+        const answer = document.getElementById(`answer${index}`)?.value || "";
+        answers.push(answer);
+    });
+
+    // Combine character data with historical data and answers
     const fullCharacterData = {
         ...characterData,
-        historicalData
+        historicalData,
+        answers
     };
 
-    // Save the full character data (for now, just log it)
     console.log("Full Character Data:", fullCharacterData);
     alert("Character saved successfully!");
 
-    // Clear localStorage and redirect back to the main page
     localStorage.removeItem("characterData");
     window.location.href = "index.html";
 });
+
+// Menu Strip Functions
+function toggleLightMode() {
+    document.body.classList.toggle("light-mode");
+}
+
+function changeStyle(style) {
+    document.body.classList.remove("minimal", "retro");
+    if (style !== "default") {
+        document.body.classList.add(style);
+    }
+}
