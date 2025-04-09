@@ -71,14 +71,12 @@ function displayCore() {
         }))
     ];
 
+    // Fixed sizes for each layer (core is largest, outer layers decrease)
+    const fixedSizes = [300, 260, 220, 180, 140, 100, 60]; // Sizes in pixels
+
+    // Display the layers with fixed sizes
     layers.forEach((layer, index) => {
-        const baseSize = 400;
-        const minSize = 50;
-        const sizeRange = (baseSize - minSize) / 7;
-        const baseLayerSize = minSize + (index * sizeRange);
-        const scaleFactor = layer.points / 100;
-        const minLayerSize = 20;
-        const size = Math.max(minLayerSize, baseLayerSize * (scaleFactor / 2));
+        const size = fixedSizes[index]; // Use fixed size instead of dynamic calculation
 
         const div = document.createElement("div");
         div.className = "layer";
@@ -87,8 +85,8 @@ function displayCore() {
         }
         div.style.width = `${size}px`;
         div.style.height = `${size}px`;
-        div.style.top = `${(400 - size) / 2}px`;
-        div.style.left = `${(400 - size) / 2}px`;
+        div.style.top = `${(400 - size) / 2}px`; // Center vertically
+        div.style.left = `${(400 - size) / 2}px`; // Center horizontally
         div.style.backgroundColor = chakraColors[index];
         div.style.zIndex = 7 - index;
 
