@@ -59,6 +59,45 @@ questions.forEach((q, index) => {
     details.appendChild(p);
 });
 
+// Render the half-circle visualization
+function displayCore() {
+    const viz = document.getElementById("coreViz");
+    viz.innerHTML = "";
+
+    const layers = [
+        { points: points[0] },
+        ...spectrums.map((s, i) => ({
+            points: points[i + 1]
+        }))
+    ];
+
+    layers.forEach((layer, index) => {
+        const baseSize = 400;
+        const minSize = 50;
+        const sizeRange = (baseSize - minSize) / 7;
+        const baseLayerSize = minSize + (index * sizeRange);
+        const scaleFactor = layer.points / 100;
+        const minLayerSize = 20;
+        const size = Math.max(minLayerSize, baseLayerSize * (scaleFactor / 2));
+
+        const div = document.createElement("div");
+        div.className = "layer";
+        if (index === 0) {
+            div.classList.add("core-glow");
+        }
+        div.style.width = `${size}px`;
+        div.style.height = `${size}px`;
+        div.style.top = `${(400 - size) / 2}px`;
+        div.style.left = `${(400 - size) / 2}px`;
+        div.style.backgroundColor = chakraColors[index];
+        div.style.zIndex = 7 - index;
+
+        viz.appendChild(div);
+    });
+}
+
+displayCore();
+
 // Function to generate random defaults for historical information
 function generateRandomDefaults() {
     const regions = [
