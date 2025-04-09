@@ -6,80 +6,98 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>CoreCraft</h1>
-    <div id="generator">
-        <input type="text" id="charName" placeholder="Character Name (optional)">
-        <h2>Core Value Spectrum (Root Chakra)</h2>
-        <label>Fearful <input type="range" id="coreSlider" min="-100" max="100" value="0" oninput="updateSliders()"> Secure</label>
-        <p>Balance: Stable</p>
+    <!-- Menu Strip -->
+    <div class="menu-strip">
+        <button onclick="alert('Import functionality coming soon!')">Import</button>
+        <button onclick="alert('Export functionality coming soon!')">Export</button>
+        <button onclick="alert('Print functionality coming soon!')">Print</button>
+        <button onclick="toggleLightMode()">Light Mode</button>
+        <select onchange="changeStyle(this.value)">
+            <option value="default">Default Style</option>
+            <option value="minimal">Minimal</option>
+            <option value="retro">Retro</option>
+        </select>
     </div>
-    <div id="customSpectrums">
-        <h2>Define Your Spectrums (Chakras)</h2>
-        <div id="spectrumInputs">
-            <!-- Spectrum 1: Sacral Chakra -->
-            <div>
-                <h3>Sacral Chakra (Creativity & Emotion)</h3>
-                <input type="text" id="left0" value="Repressed">
-                <input type="range" id="slider0" min="-100" max="100" value="0" oninput="updateSliders()">
-                <input type="text" id="right0" value="Passionate">
-                <br>
-                <input type="text" id="middle0" value="Expressive">
-            </div>
-            <!-- Spectrum 2: Solar Plexus Chakra -->
-            <div>
-                <h3>Solar Plexus Chakra (Power & Confidence)</h3>
-                <input type="text" id="left1" value="Timid">
-                <input type="range" id="slider1" min="-100" max="100" value="0" oninput="updateSliders()">
-                <input type="text" id="right1" value="Confident">
-                <br>
-                <input type="text" id="middle1" value="Assertive">
-            </div>
-            <!-- Spectrum 3: Heart Chakra -->
-            <div>
-                <h3>Heart Chakra (Love & Compassion)</h3>
-                <input type="text" id="left2" value="Cold">
-                <input type="range" id="slider2" min="-100" max="100" value="0" oninput="updateSliders()">
-                <input type="text" id="right2" value="Loving">
-                <br>
-                <input type="text" id="middle2" value="Kind">
-            </div>
-            <!-- Spectrum 4: Throat Chakra -->
-            <div>
-                <h3>Throat Chakra (Communication & Truth)</h3>
-                <input type="text" id="left3" value="Silent">
-                <input type="range" id="slider3" min="-100" max="100" value="0" oninput="updateSliders()">
-                <input type="text" id="right3" value="Outspoken">
-                <br>
-                <input type="text" id="middle3" value="Honest">
-            </div>
-            <!-- Spectrum 5: Third Eye Chakra -->
-            <div>
-                <h3>Third Eye Chakra (Intuition & Wisdom)</h3>
-                <input type="text" id="left4" value="Unaware">
-                <input type="range" id="slider4" min="-100" max="100" value="0" oninput="updateSliders()">
-                <input type="text" id="right4" value="Intuitive">
-                <br>
-                <input type="text" id="middle4" value="Perceptive">
-            </div>
-            <!-- Spectrum 6: Crown Chakra -->
-            <div>
-                <h3>Crown Chakra (Spirituality & Enlightenment)</h3>
-                <input type="text" id="left5" value="Disconnected">
-                <input type="range" id="slider5" min="-100" max="100" value="0" oninput="updateSliders()">
-                <input type="text" id="right5" value="Enlightened">
-                <br>
-                <input type="text" id="middle5" value="Spiritual">
+
+    <!-- Scrollable Content -->
+    <div class="content">
+        <h1>CoreCraft</h1>
+        <div id="generator">
+            <input type="text" id="charName" placeholder="Character Name (optional)">
+            <h2>Core Value Spectrum (Root Chakra)</h2>
+            <label>Fearful <input type="range" id="coreSlider" min="-100" max="100" value="0" oninput="updateSliders()"> Secure</label>
+            <p>Balance: Stable</p>
+        </div>
+        <div id="customSpectrums">
+            <h2>Define Your Spectrums (Chakras)</h2>
+            <div id="spectrumInputs">
+                <!-- Spectrum 1: Sacral Chakra -->
+                <div>
+                    <h3>Sacral Chakra (Creativity & Emotion)</h3>
+                    <input type="text" id="left0" value="Repressed">
+                    <input type="range" id="slider0" min="-100" max="100" value="0" oninput="updateSliders()">
+                    <input type="text" id="right0" value="Passionate">
+                    <br>
+                    <input type="text" id="middle0" value="Expressive">
+                </div>
+                <!-- Spectrum 2: Solar Plexus Chakra -->
+                <div>
+                    <h3>Solar Plexus Chakra (Power & Confidence)</h3>
+                    <input type="text" id="left1" value="Timid">
+                    <input type="range" id="slider1" min="-100" max="100" value="0" oninput="updateSliders()">
+                    <input type="text" id="right1" value="Confident">
+                    <br>
+                    <input type="text" id="middle1" value="Assertive">
+                </div>
+                <!-- Spectrum 3: Heart Chakra -->
+                <div>
+                    <h3>Heart Chakra (Love & Compassion)</h3>
+                    <input type="text" id="left2" value="Cold">
+                    <input type="range" id="slider2" min="-100" max="100" value="0" oninput="updateSliders()">
+                    <input type="text" id="right2" value="Loving">
+                    <br>
+                    <input type="text" id="middle2" value="Kind">
+                </div>
+                <!-- Spectrum 4: Throat Chakra -->
+                <div>
+                    <h3>Throat Chakra (Communication & Truth)</h3>
+                    <input type="text" id="left3" value="Silent">
+                    <input type="range" id="slider3" min="-100" max="100" value="0" oninput="updateSliders()">
+                    <input type="text" id="right3" value="Outspoken">
+                    <br>
+                    <input type="text" id="middle3" value="Honest">
+                </div>
+                <!-- Spectrum 5: Third Eye Chakra -->
+                <div>
+                    <h3>Third Eye Chakra (Intuition & Wisdom)</h3>
+                    <input type="text" id="left4" value="Unaware">
+                    <input type="range" id="slider4" min="-100" max="100" value="0" oninput="updateSliders()">
+                    <input type="text" id="right4" value="Intuitive">
+                    <br>
+                    <input type="text" id="middle4" value="Perceptive">
+                </div>
+                <!-- Spectrum 6: Crown Chakra -->
+                <div>
+                    <h3>Crown Chakra (Spirituality & Enlightenment)</h3>
+                    <input type="text" id="left5" value="Disconnected">
+                    <input type="range" id="slider5" min="-100" max="100" value="0" oninput="updateSliders()">
+                    <input type="text" id="right5" value="Enlightened">
+                    <br>
+                    <input type="text" id="middle5" value="Spiritual">
+                </div>
             </div>
         </div>
+        <div class="button-group">
+            <button onclick="generateCharacter()">Generate Character</button>
+            <button id="continueButton" onclick="goToSummary()" disabled>Continue</button>
+        </div>
     </div>
-    <button onclick="generateCharacter()">Generate Character</button>
-    <div id="coreViz"></div>
-    <div id="details">
-        <h2>Character Details</h2>
-        <div id="questions"></div>
+
+    <!-- Fixed Half-Circle Visualization -->
+    <div class="half-circle-container">
+        <div id="coreViz"></div>
     </div>
-    <!-- Add Continue button -->
-    <button onclick="goToSummary()">Continue</button>
+
     <script src="script.js"></script>
 </body>
 </html>
