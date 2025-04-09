@@ -7,22 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Menu Strip -->
-    <div class="menu-strip">
-        <button onclick="alert('Import functionality coming soon!')">Import</button>
-        <button onclick="alert('Export functionality coming soon!')">Export</button>
-        <button onclick="alert('Print functionality coming soon!')">Print</button>
-        <button onclick="toggleLightMode()">Light Mode</button>
-        <select onchange="changeStyle(this.value)">
-            <option value="default">Default Style</option>
-            <option value="minimal">Minimal</option>
-            <option value="retro">Retro</option>
-        </select>
+    <!-- Fixed Header with Title and Menu -->
+    <div class="header">
+        <h1 class="title">CoreCraft</h1>
+        <div class="menu-strip">
+            <button onclick="alert('Import functionality coming soon!')">Import</button>
+            <button onclick="alert('Export functionality coming soon!')">Export</button>
+            <button onclick="alert('Print functionality coming soon!')">Print</button>
+            <button onclick="toggleLightMode()">Light Mode</button>
+            <select onchange="changeStyle(this.value)">
+                <option value="default">Default Style</option>
+                <option value="minimal">Minimal</option>
+                <option value="retro">Retro</option>
+            </select>
+        </div>
     </div>
 
     <!-- Scrollable Content -->
     <div class="content">
-        <h1>CoreCraft</h1>
         <div id="generator">
             <input type="text" id="charName" placeholder="Character Name (optional)">
             <h2>Core Value Spectrum (Root Chakra)</h2>
