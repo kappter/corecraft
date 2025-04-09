@@ -7,20 +7,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="menu-strip">
-        <button onclick="alert('Import functionality coming soon!')">Import</button>
-        <button onclick="alert('Export functionality coming soon!')">Export</button>
-        <button onclick="alert('Print functionality coming soon!')">Print</button>
-        <button onclick="toggleLightMode()">Light Mode</button>
-        <select onchange="changeStyle(this.value)">
-            <option value="default">Default Style</option>
-            <option value="minimal">Minimal</option>
-            <option value="retro">Retro</option>
-        </select>
+    <!-- Fixed Header with Title and Menu -->
+    <div class="header">
+        <h1 class="title">CoreCraft</h1>
+        <div class="menu-strip">
+            <button onclick="alert('Import functionality coming soon!')">Import</button>
+            <button onclick="alert('Export functionality coming soon!')">Export</button>
+            <button onclick="alert('Print functionality coming soon!')">Print</button>
+            <button onclick="toggleLightMode()">Light Mode</button>
+            <select onchange="changeStyle(this.value)">
+                <option value="default">Default Style</option>
+                <option value="minimal">Minimal</option>
+                <option value="retro">Retro</option>
+            </select>
+        </div>
     </div>
 
+    <!-- Scrollable Content -->
     <div class="content">
-        <h1>CoreCraft - Character Summary</h1>
+        <h1>Character Summary</h1>
         <div id="summary">
             <h2 id="characterName"></h2>
             <h3>Chakra Profile</h3>
@@ -55,6 +60,11 @@
                 <button type="submit">Save Character</button>
             </form>
         </div>
+    </div>
+
+    <!-- Fixed Half-Circle Visualization -->
+    <div class="half-circle-container">
+        <div id="coreViz"></div>
     </div>
 
     <script src="summary.js"></script>
