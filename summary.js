@@ -44,11 +44,11 @@ const spectrums = characterData.spectrums;
 const points = characterData.points;
 
 // Core (Root Chakra)
-chakraProfile.innerHTML += `<p style="color: ${chakraColors[0]}"><strong>${chakraNames[0]}:</strong> ${coreSliderValue < 0 ? "Fearful" : coreSliderValue > 0 ? "Secure" : "Stable"} (${points[0]} points)</p>`;
+chakraProfile.innerHTML += `<p style="color: ${chakraColors[0]}"><strong>${chakraNames[0]}:</strong> ${coreSliderValue < 0 ? "Fearful" : coreSliderValue > 0 ? "Secure" : "Stable"} (${Math.round(points[0])} points)</p>`;
 
 // Other Chakras
 spectrums.forEach((s, i) => {
-    chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${points[i + 1]} points)</p>`;
+    chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(points[i + 1])} points)</p>`;
 });
 
 // Display questions for user input
@@ -105,7 +105,6 @@ function generateRandomDefaults() {
     document.getElementById("lifeEvents").value = randomEvents.join("\n");
 }
 
-// Call the function to populate defaults
 generateRandomDefaults();
 
 // Handle form submission
@@ -122,14 +121,12 @@ document.getElementById("historicalForm").addEventListener("submit", function(ev
         lifeEvents: document.getElementById("lifeEvents").value
     };
 
-    // Collect answers to questions
     const answers = [];
     questions.forEach((_, index) => {
         const answer = document.getElementById(`answer${index}`)?.value || "";
         answers.push(answer);
     });
 
-    // Combine character data with historical data and answers
     const fullCharacterData = {
         ...characterData,
         historicalData,
@@ -138,7 +135,6 @@ document.getElementById("historicalForm").addEventListener("submit", function(ev
 
     console.log("Full Character Data:", fullCharacterData);
     alert("Character saved successfully!");
-
     localStorage.removeItem("characterData");
     window.location.href = "index.html";
 });
