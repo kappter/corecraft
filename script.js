@@ -20,26 +20,15 @@ const chakraNames = [
     "Crown Chakra (Spirituality)"
 ];
 
-// Core questions to reveal character
-const questions = [
-    "What is their greatest strength?",
-    "What haunts them from their past?",
-    "Have they ever been abused or hurt others?",
-    "What’s their relationship with money?",
-    "Have they faced loss (job, love, health)?",
-    "What’s their moral breaking point?",
-    "How do they connect with others?"
-];
-
-// Total points to distribute across all layers
+// Total points (volume) of the sphere
 const TOTAL_POINTS = 700;
 
-// Convert slider value (-100 to 100) to points (0 to 200)
-function sliderToPoints(value) {
+// Convert slider value (-100 to 100) to a weight (0 to 200)
+function sliderToWeight(value) {
     return parseInt(value) + 100; // -100 -> 0, 0 -> 100, 100 -> 200
 }
 
-// Update sliders to balance points
+// Update sliders to balance points like a sphere
 function updateSliders() {
     const sliders = [
         document.getElementById("coreSlider"),
@@ -51,29 +40,29 @@ function updateSliders() {
         document.getElementById("slider5")
     ];
 
-    // Calculate current total points
-    let totalPoints = 0;
-    const points = sliders.map(slider => sliderToPoints(slider.value));
-    totalPoints = points.reduce((sum, p) => sum + p, 0);
+    // Calculate weights from slider values
+    const weights = sliders.map(slider => sliderToWeight(slider.value));
+    const totalWeight = weights.reduce((sum, w) => sum + w, 0);
 
-    // If total points exceed 700, redistribute the excess
-    if (totalPoints !== TOTAL_POINTS) {
-        const excess = totalPoints - TOTAL_POINTS;
-        const numSliders = sliders.length;
-        const adjustment = excess / (numSliders - 1); // Distribute among other sliders
-
-        // Adjust all sliders except the one that triggered the change
-        const activeSlider = document.activeElement;
-        sliders.forEach((slider, index) => {
-            if (slider !== activeSlider) {
-                let newPoints = points[index] - adjustment;
-                newPoints = Math.max(0, Math.min(200, newPoints)); // Clamp between 0 and 200
-                slider.value = newPoints - 100; // Convert back to slider value
-            }
-        });
+    // Normalize weights to distribute points (total = 700)
+    let points = [];
+    if (totalWeight === 0) {
+        // If all sliders are at -100, distribute equally
+        points = new Array(7).fill(TOTAL_POINTS / 7);
+    } else {
+        points = weights.map(weight => (weight / totalWeight) * TOTAL_POINTS);
     }
 
-    // Update visualization (but don’t enable Continue button yet)
+    // Adjust sliders to reflect the normalized points
+    const activeSlider = document.activeElement;
+    sliders.forEach((slider, index) => {
+        if (slider !== activeSlider) {
+            const newWeight = (points[index] / TOTAL_POINTS) * totalWeight;
+            slider.value = Math.round(newWeight - 100);
+        }
+    });
+
+    // Update visualization
     const name = document.getElementById("charName").value || "Unnamed";
     const spectrums = [];
     for (let i = 0; i < 6; i++) {
@@ -83,28 +72,19 @@ function updateSliders() {
         const value = document.getElementById(`slider${i}`).value;
         spectrums.push({ left, right, middle, value });
     }
-    displayCore(sliders[0].value, spectrums);
+    displayCore(sliders[0].value, spectrums, points);
 }
 
 // Generate a character
 function generateCharacter() {
     updateSliders();
-    // Enable the Continue button after generating
     document.getElementById("continueButton").disabled = false;
 }
 
-// Visualize the character's core
-function displayCore(coreSliderValue, spectrums) {
+// Visualize the character's core as a sphere with a cutout
+function displayCore(coreSliderValue, spectrums, points) {
     const viz = document.getElementById("coreViz");
     viz.innerHTML = "";
-
-    // Calculate points for each layer
-    const sliderValues = [
-        coreSliderValue,
-        ...spectrums.map(s => s.value)
-    ].map(value => parseInt(value));
-
-    const points = sliderValues.map(sliderToPoints);
 
     // All layers (core + 6 user-defined)
     const layers = [
@@ -116,14 +96,13 @@ function displayCore(coreSliderValue, spectrums) {
 
     // Display the layers
     layers.forEach((layer, index) => {
-        // Scale the layer size based on points (0 to 200 points)
         const baseSize = 400;
         const minSize = 50;
         const sizeRange = (baseSize - minSize) / 7;
         const baseLayerSize = minSize + (index * sizeRange);
         const scaleFactor = layer.points / 100;
         const minLayerSize = 20;
-        const size = Math.max(minLayerSize, baseLayerSize * scaleFactor);
+        const size = Math.max(minLayerSize, baseLayerSize * (scaleFactor / 2)); // Adjust scale for sphere
 
         const div = document.createElement("div");
         div.className = "layer";
@@ -154,7 +133,9 @@ function goToSummary() {
         document.getElementById("slider5")
     ];
     const sliderValues = sliders.map(slider => slider.value);
-    const points = sliderValues.map(sliderToPoints);
+    const weights = sliderValues.map(sliderToWeight);
+    const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+    const points = totalWeight === 0 ? new Array(7).fill(TOTAL_POINTS / 7) : weights.map(weight => (weight / totalWeight) * TOTAL_POINTS);
 
     const spectrums = [];
     for (let i = 0; i < 6; i++) {
@@ -165,17 +146,14 @@ function goToSummary() {
         spectrums.push({ left, right, middle, value });
     }
 
-    // Store character data in localStorage
     const characterData = {
         name,
         sliderValues,
         points,
         spectrums,
-        answers: [] // Empty since questions are moved to summary page
+        answers: []
     };
     localStorage.setItem("characterData", JSON.stringify(characterData));
-
-    // Navigate to the summary page
     window.location.href = "summary.html";
 }
 
