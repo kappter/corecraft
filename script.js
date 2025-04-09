@@ -73,7 +73,7 @@ function updateSliders() {
         });
     }
 
-    // Update visualization
+    // Update visualization (but don’t enable Continue button yet)
     const name = document.getElementById("charName").value || "Unnamed";
     const spectrums = [];
     for (let i = 0; i < 6; i++) {
@@ -84,12 +84,13 @@ function updateSliders() {
         spectrums.push({ left, right, middle, value });
     }
     displayCore(sliders[0].value, spectrums);
-    displayQuestions(name, spectrums);
 }
 
 // Generate a character
 function generateCharacter() {
-    updateSliders(); // Use the same logic as slider update
+    updateSliders();
+    // Enable the Continue button after generating
+    document.getElementById("continueButton").disabled = false;
 }
 
 // Visualize the character's core
@@ -107,9 +108,8 @@ function displayCore(coreSliderValue, spectrums) {
 
     // All layers (core + 6 user-defined)
     const layers = [
-        { label: `${chakraNames[0]}: ${coreSliderValue < 0 ? "Fearful" : coreSliderValue > 0 ? "Secure" : "Stable"}`, points: points[0] },
+        { points: points[0] },
         ...spectrums.map((s, i) => ({
-            label: `${chakraNames[i + 1]}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle}`,
             points: points[i + 1]
         }))
     ];
@@ -135,26 +135,9 @@ function displayCore(coreSliderValue, spectrums) {
         div.style.top = `${(400 - size) / 2}px`;
         div.style.left = `${(400 - size) / 2}px`;
         div.style.backgroundColor = chakraColors[index];
-        // Set z-index to ensure innermost layer is on top
-        div.style.zIndex = 7 - index; // Innermost layer (index 0) gets z-index 7, outermost gets 1
+        div.style.zIndex = 7 - index;
 
         viz.appendChild(div);
-    });
-
-    // Remove arc labels and tooltips (no text overlays)
-}
-
-// Display questions and answers section
-function displayQuestions(name, spectrums) {
-    const details = document.getElementById("questions");
-    details.innerHTML = `<h3>${name}'s Core Profile</h3>`;
-    spectrums.forEach((s, i) => {
-        details.innerHTML += `<p><strong>${chakraNames[i + 1]}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value}</p>`;
-    });
-    questions.forEach((q, index) => {
-        const p = document.createElement("p");
-        p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer${index}" placeholder="Type your answer">`;
-        details.appendChild(p);
     });
 }
 
@@ -182,23 +165,28 @@ function goToSummary() {
         spectrums.push({ left, right, middle, value });
     }
 
-    // Collect answers to questions
-    const answers = [];
-    questions.forEach((_, index) => {
-        const answer = document.getElementById(`answer${index}`)?.value || "";
-        answers.push(answer);
-    });
-
     // Store character data in localStorage
     const characterData = {
         name,
         sliderValues,
         points,
         spectrums,
-        answers
+        answers: [] // Empty since questions are moved to summary page
     };
     localStorage.setItem("characterData", JSON.stringify(characterData));
 
     // Navigate to the summary page
     window.location.href = "summary.html";
+}
+
+// Menu Strip Functions
+function toggleLightMode() {
+    document.body.classList.toggle("light-mode");
+}
+
+function changeStyle(style) {
+    document.body.classList.remove("minimal", "retro");
+    if (style !== "default") {
+        document.body.classList.add(style);
+    }
 }
