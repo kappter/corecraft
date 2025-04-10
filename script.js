@@ -1,7 +1,11 @@
 let characterCount = 0;
 const maxCharacters = 5;
 let allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
-
+// Add at top of goToSummary
+function goToSummary() {
+    document.getElementById("characterCount").innerText = `Characters Created: ${characterCount} / 5`;
+    // Rest of the function...
+}
 function generateCharacter() {
     updateSliders();
     document.getElementById("continueButton").disabled = false;
