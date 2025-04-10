@@ -1,0 +1,29 @@
+<!-- scenario.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CoreCraft - Scenario</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">CoreCraft</h1>
+        <div class="menu-strip">
+            <button onclick="toggleLightMode()">Light Mode</button>
+            <select onchange="changeStyle(this.value)">
+                <option value="default">Default Style</option>
+                <option value="minimal">Minimal</option>
+                <option value="retro">Retro</option>
+            </select>
+        </div>
+    </div>
+    <div class="content">
+        <h1>Scenario</h1>
+        <div id="scenarioOutput"></div>
+        <button onclick="generateScenario()">Regenerate Scenario</button>
+    </div>
+    <script src="scenario.js"></script>
+</body>
+</html>
