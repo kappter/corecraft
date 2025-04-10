@@ -2,105 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CoreCraft</title>
+    <title>Character Core & Mastery Signature</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Fixed Header with Title and Menu -->
-    <div class="header">
-        <h1 class="title">CoreCraft</h1>
-        <div class="menu-strip">
-            <button onclick="alert('Import functionality coming soon!')">Import</button>
-            <button onclick="alert('Export functionality coming soon!')">Export</button>
-            <button onclick="alert('Print functionality coming soon!')">Print</button>
-            <button onclick="toggleLightMode()">Light Mode</button>
-            <select onchange="changeStyle(this.value)">
-                <option value="default">Default Style</option>
-                <option value="minimal">Minimal</option>
-                <option value="retro">Retro</option>
+    <h1>Build Your Character</h1>
+    <form id="characterForm">
+        <label>Name: <input type="text" id="name" placeholder="e.g., Kara" required></label><br>
+        <label>Moral Core: 
+            <select id="moralCore" required>
+                <option value="altruistic">Altruistic</option>
+                <option value="selfish">Selfish</option>
+                <option value="chaotic">Chaotic</option>
             </select>
-        </div>
-    </div>
+        </label><br>
+        <label>Key History: <input type="text" id="history" placeholder="e.g., survived betrayal" required></label><br>
+        <label>Mastery Discipline: <input type="text" id="discipline" placeholder="e.g., Deception" required></label><br>
+        
+        <fieldset id="masteryLevels">
+            <legend>Mastery Levels</legend>
+            <label>Level 1 (Engaging Experience): 
+                <input type="number" id="time1" min="0" value="0"> 
+                <select id="unit1"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff1" min="1" max="5" value="3">
+            </label><br>
+            <label>Level 2 (Learning Knowledge): 
+                <input type="number" id="time2" min="0" value="0"> 
+                <select id="unit2"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff2" min="1" max="5" value="3">
+            </label><br>
+            <label>Level 3 (Applying Skills): 
+                <input type="number" id="time3" min="0" value="0"> 
+                <select id="unit3"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff3" min="1" max="5" value="3">
+            </label><br>
+            <label>Level 4 (Reflection): 
+                <input type="number" id="time4" min="0" value="0"> 
+                <select id="unit4"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff4" min="1" max="5" value="3">
+            </label><br>
+            <label>Level 5 (Integration): 
+                <input type="number" id="time5" min="0" value="0"> 
+                <select id="unit5"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff5" min="1" max="5" value="3">
+            </label><br>
+            <label>Level 6 (Contribution): 
+                <input type="number" id="time6" min="0" value="0"> 
+                <select id="unit6"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff6" min="1" max="5" value="3">
+            </label><br>
+            <label>Level 7 (Creation): 
+                <input type="number" id="time7" min="0" value="0"> 
+                <select id="unit7"><option>hours</option><option>days</option><option>weeks</option></select>
+                Difficulty: <input type="range" id="diff7" min="1" max="5" value="3">
+            </label><br>
+        </fieldset>
+        <button type="submit">Generate Character</button>
+    </form>
 
-    <!-- Scrollable Content -->
-    <div class="content">
-        <div id="generator">
-            <input type="text" id="charName" placeholder="Character Name (optional)">
-            <h2>Core Value Spectrum (Root Chakra)</h2>
-            <label>Fearful <input type="range" id="coreSlider" min="-100" max="100" value="0" oninput="updateSliders()"> Secure</label>
-            <p>Balance: Stable</p>
-        </div>
-        <div id="customSpectrums">
-            <h2>Define Your Spectrums (Chakras)</h2>
-            <div id="spectrumInputs">
-                <!-- Spectrum 1: Sacral Chakra -->
-                <div>
-                    <h3>Sacral Chakra (Creativity & Emotion)</h3>
-                    <input type="text" id="left0" value="Repressed">
-                    <input type="range" id="slider0" min="-100" max="100" value="0" oninput="updateSliders()">
-                    <input type="text" id="right0" value="Passionate">
-                    <br>
-                    <input type="text" id="middle0" value="Expressive">
-                </div>
-                <!-- Spectrum 2: Solar Plexus Chakra -->
-                <div>
-                    <h3>Solar Plexus Chakra (Power & Confidence)</h3>
-                    <input type="text" id="left1" value="Timid">
-                    <input type="range" id="slider1" min="-100" max="100" value="0" oninput="updateSliders()">
-                    <input type="text" id="right1" value="Confident">
-                    <br>
-                    <input type="text" id="middle1" value="Assertive">
-                </div>
-                <!-- Spectrum 3: Heart Chakra -->
-                <div>
-                    <h3>Heart Chakra (Love & Compassion)</h3>
-                    <input type="text" id="left2" value="Cold">
-                    <input type="range" id="slider2" min="-100" max="100" value="0" oninput="updateSliders()">
-                    <input type="text" id="right2" value="Loving">
-                    <br>
-                    <input type="text" id="middle2" value="Kind">
-                </div>
-                <!-- Spectrum 4: Throat Chakra -->
-                <div>
-                    <h3>Throat Chakra (Communication & Truth)</h3>
-                    <input type="text" id="left3" value="Silent">
-                    <input type="range" id="slider3" min="-100" max="100" value="0" oninput="updateSliders()">
-                    <input type="text" id="right3" value="Outspoken">
-                    <br>
-                    <input type="text" id="middle3" value="Honest">
-                </div>
-                <!-- Spectrum 5: Third Eye Chakra -->
-                <div>
-                    <h3>Third Eye Chakra (Intuition & Wisdom)</h3>
-                    <input type="text" id="left4" value="Unaware">
-                    <input type="range" id="slider4" min="-100" max="100" value="0" oninput="updateSliders()">
-                    <input type="text" id="right4" value="Intuitive">
-                    <br>
-                    <input type="text" id="middle4" value="Perceptive">
-                </div>
-                <!-- Spectrum 6: Crown Chakra -->
-                <div>
-                    <h3>Crown Chakra (Spirituality & Enlightenment)</h3>
-                    <input type="text" id="left5" value="Disconnected">
-                    <input type="range" id="slider5" min="-100" max="100" value="0" oninput="updateSliders()">
-                    <input type="text" id="right5" value="Enlightened">
-                    <br>
-                    <input type="text" id="middle5" value="Spiritual">
-                </div>
-            </div>
-        </div>
-        <div class="button-group">
-            <button onclick="generateCharacter()">Generate Character</button>
-            <button id="continueButton" onclick="goToSummary()" disabled>Continue</button>
-        </div>
-    </div>
-
-    <!-- Fixed Half-Circle Visualization -->
-    <div class="half-circle-container">
-        <div id="coreViz"></div>
-    </div>
-
+    <div id="coreVisualizer"></div>
+    <canvas id="signatureCanvas" width="600" height="200"></canvas>
     <script src="script.js"></script>
 </body>
 </html>
