@@ -1,189 +1,53 @@
-// Earthy chakra colors
-const chakraColors = [
-    "#8B0000", // Deep Rust Red (Root Chakra) - Core
-    "#E97451", // Burnt Sienna (Sacral Chakra)
-    "#DAA520", // Sandy Ochre (Solar Plexus Chakra)
-    "#4A7043", // Moss Green (Heart Chakra)
-    "#4682B4", // Slate Blue (Throat Chakra)
-    "#2F2F5A", // Deep Shale Indigo (Third Eye Chakra)
-    "#836479"  // Dusty Mauve (Crown Chakra)
-];
+// In summary.js
+const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
 
-// Chakra names for reference
-const chakraNames = [
-    "Root Chakra (Survival)",
-    "Sacral Chakra (Creativity)",
-    "Solar Plexus Chakra (Power)",
-    "Heart Chakra (Love)",
-    "Throat Chakra (Communication)",
-    "Third Eye Chakra (Intuition)",
-    "Crown Chakra (Spirituality)"
-];
-
-// Core questions to reveal character
-const questions = [
-    "What is their greatest strength?",
-    "What haunts them from their past?",
-    "Have they ever been abused or hurt others?",
-    "What’s their relationship with money?",
-    "Have they faced loss (job, love, health)?",
-    "What’s their moral breaking point?",
-    "How do they connect with others?"
-];
-
-// Load character data from localStorage
-const characterData = JSON.parse(localStorage.getItem("characterData"));
-
-// Display character name
-document.getElementById("characterName").innerText = characterData.name;
-
-// Display chakra profile
+document.getElementById("characterName").innerText = "Multiple Characters";
 const chakraProfile = document.getElementById("chakraProfile");
-const coreSliderValue = characterData.sliderValues[0];
-const spectrums = characterData.spectrums;
-const points = characterData.points;
-
-// Core (Root Chakra)
-chakraProfile.innerHTML += `<p style="color: ${chakraColors[0]}"><strong>${chakraNames[0]}:</strong> ${coreSliderValue < 0 ? "Fearful" : coreSliderValue > 0 ? "Secure" : "Stable"} (${Math.round(points[0])} points)</p>`;
-
-// Other Chakras
-spectrums.forEach((s, i) => {
-    chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.left} to ${s.right}, Balanced at ${s.middle}. Current: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(points[i + 1])} points)</p>`;
-});
-
-// Display questions for user input
-const details = document.getElementById("questions");
-questions.forEach((q, index) => {
-    const p = document.createElement("p");
-    p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer${index}" placeholder="Type your answer">`;
-    details.appendChild(p);
-});
-
-// Render the half-circle visualization
-function displayCore() {
-    const viz = document.getElementById("coreViz");
-    viz.innerHTML = "";
-
-    const layers = [
-        { points: points[0] },
-        ...spectrums.map((s, i) => ({
-            points: points[i + 1]
-        }))
-    ];
-
-    // Fixed sizes for each layer (core is largest, outer layers decrease)
-    const fixedSizes = [300, 260, 220, 180, 140, 100, 60]; // Sizes in pixels
-
-    // Display the layers with fixed sizes
-    layers.forEach((layer, index) => {
-        const size = fixedSizes[index]; // Use fixed size instead of dynamic calculation
-
-        const div = document.createElement("div");
-        div.className = "layer";
-        if (index === 0) {
-            div.classList.add("core-glow");
-        }
-        div.style.width = `${size}px`;
-        div.style.height = `${size}px`;
-        div.style.top = `${(400 - size) / 2}px`; // Center vertically
-        div.style.left = `${(400 - size) / 2}px`; // Center horizontally
-        div.style.backgroundColor = chakraColors[index];
-        div.style.zIndex = 7 - index;
-
-        viz.appendChild(div);
+chakraProfile.innerHTML = "";
+allCharacters.forEach((char, idx) => {
+    chakraProfile.innerHTML += `<h3>${char.name}</h3>`;
+    chakraProfile.innerHTML += `<p style="color: ${chakraColors[0]}"><strong>${chakraNames[0]}:</strong> ${char.sliderValues[0] < 0 ? "Fearful" : char.sliderValues[0] > 0 ? "Secure" : "Stable"} (${Math.round(char.points[0])} points)</p>`;
+    char.spectrums.forEach((s, i) => {
+        chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(char.points[i + 1])} points)</p>`;
     });
-}
+});
 
-displayCore();
+// Display questions for each character
+const details = document.getElementById("questions");
+allCharacters.forEach((char, charIdx) => {
+    details.innerHTML += `<h4>${char.name}</h4>`;
+    questions.forEach((q, qIdx) => {
+        const p = document.createElement("p");
+        p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer_${charIdx}_${qIdx}" placeholder="Type your answer">`;
+        details.appendChild(p);
+    });
+});
 
-// Function to generate random defaults for historical information
-function generateRandomDefaults() {
-    const regions = [
-        "North America", "South America", "Europe", "Africa", "Asia", "Australia", "Antarctica",
-        "Southeast Asia", "Western Europe", "East Africa", "Central America", "Middle East"
-    ];
-    const randomRegion = regions[Math.floor(Math.random() * regions.length)];
-    document.getElementById("region").value = randomRegion;
-
-    const yearOfBirth = Math.floor(Math.random() * (2025 - 1900 + 1)) + 1900;
-    document.getElementById("yearOfBirth").value = yearOfBirth;
-
-    const motherAge = Math.floor(Math.random() * (45 - 18 + 1)) + 18;
-    document.getElementById("motherAge").value = motherAge;
-
-    const fatherAge = Math.floor(Math.random() * (50 - 18 + 1)) + 18;
-    document.getElementById("fatherAge").value = fatherAge;
-
-    const siblings = Math.floor(Math.random() * 6);
-    document.getElementById("siblings").value = siblings;
-
-    const educationLevels = [
-        "None", "Elementary School", "High School", "College Degree", "Advanced Degree"
-    ];
-    const randomEducation = educationLevels[Math.floor(Math.random() * educationLevels.length)];
-    document.getElementById("education").value = randomEducation;
-
-    const lifeEvents = [
-        `Moved to a new city at age ${Math.floor(Math.random() * 20) + 5}`,
-        `Lost a parent at age ${Math.floor(Math.random() * 20) + 5}`,
-        `Won a scholarship at age ${Math.floor(Math.random() * 10) + 15}`,
-        `Survived a natural disaster at age ${Math.floor(Math.random() * 20) + 5}`,
-        `Started a business at age ${Math.floor(Math.random() * 20) + 20}`,
-        `Experienced a major illness at age ${Math.floor(Math.random() * 30) + 10}`
-    ];
-    const numEvents = Math.floor(Math.random() * 2) + 1;
-    const randomEvents = [];
-    for (let i = 0; i < numEvents; i++) {
-        const event = lifeEvents[Math.floor(Math.random() * lifeEvents.length)];
-        if (!randomEvents.includes(event)) {
-            randomEvents.push(event);
-        }
-    }
-    document.getElementById("lifeEvents").value = randomEvents.join("\n");
-}
-
-generateRandomDefaults();
+// Add scenario button
+const form = document.getElementById("historicalForm");
+form.innerHTML += `<button type="button" onclick="goToScenario()">Generate Scenario</button>`;
 
 // Handle form submission
-document.getElementById("historicalForm").addEventListener("submit", function(event) {
+form.addEventListener("submit", function(event) {
     event.preventDefault();
-
-    const historicalData = {
-        region: document.getElementById("region").value,
-        yearOfBirth: document.getElementById("yearOfBirth").value,
-        motherAge: document.getElementById("motherAge").value,
-        fatherAge: document.getElementById("fatherAge").value,
-        siblings: document.getElementById("siblings").value,
-        education: document.getElementById("education").value,
-        lifeEvents: document.getElementById("lifeEvents").value
-    };
-
-    const answers = [];
-    questions.forEach((_, index) => {
-        const answer = document.getElementById(`answer${index}`)?.value || "";
-        answers.push(answer);
+    allCharacters.forEach((char, charIdx) => {
+        const historicalData = {
+            region: document.getElementById("region").value, // Could make these per-character if UI expanded
+            yearOfBirth: document.getElementById("yearOfBirth").value,
+            motherAge: document.getElementById("motherAge").value,
+            fatherAge: document.getElementById("fatherAge").value,
+            siblings: document.getElementById("siblings").value,
+            education: document.getElementById("education").value,
+            lifeEvents: document.getElementById("lifeEvents").value
+        };
+        const answers = questions.map((_, qIdx) => document.getElementById(`answer_${charIdx}_${qIdx}`).value || "");
+        char.historicalData = historicalData;
+        char.answers = answers;
     });
-
-    const fullCharacterData = {
-        ...characterData,
-        historicalData,
-        answers
-    };
-
-    console.log("Full Character Data:", fullCharacterData);
-    alert("Character saved successfully!");
-    localStorage.removeItem("characterData");
-    window.location.href = "index.html";
+    localStorage.setItem("allCharacters", JSON.stringify(allCharacters));
+    alert("Characters saved successfully!");
 });
 
-// Menu Strip Functions
-function toggleLightMode() {
-    document.body.classList.toggle("light-mode");
-}
-
-function changeStyle(style) {
-    document.body.classList.remove("minimal", "retro");
-    if (style !== "default") {
-        document.body.classList.add(style);
-    }
+function goToScenario() {
+    window.location.href = "scenario.html";
 }
