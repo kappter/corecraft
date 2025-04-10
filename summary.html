@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Fixed Header with Title and Menu -->
     <div class="header">
         <h1 class="title">CoreCraft</h1>
         <div class="menu-strip">
@@ -23,12 +22,11 @@
         </div>
     </div>
 
-    <!-- Scrollable Content -->
     <div class="content">
         <h1>Character Summary</h1>
         <div id="summary">
-            <h2 id="characterName"></h2>
-            <h3>Chakra Profile</h3>
+            <h2 id="characterName">Multiple Characters</h2>
+            <h3>Chakra Profiles</h3>
             <div id="chakraProfile"></div>
             <div id="details">
                 <h3>Character Details</h3>
@@ -36,33 +34,17 @@
             </div>
             <h3>Historical Information</h3>
             <form id="historicalForm">
-                <label for="region">Region of the Planet:</label>
-                <input type="text" id="region" placeholder="e.g., North America"><br>
-
-                <label for="yearOfBirth">Year of Birth:</label>
-                <input type="number" id="yearOfBirth" placeholder="e.g., 1990"><br>
-
-                <label for="motherAge">Mother's Age at Birth:</label>
-                <input type="number" id="motherAge" placeholder="e.g., 30"><br>
-
-                <label for="fatherAge">Father's Age at Birth:</label>
-                <input type="number" id="fatherAge" placeholder="e.g., 35"><br>
-
-                <label for="siblings">Number of Siblings:</label>
-                <input type="number" id="siblings" placeholder="e.g., 2"><br>
-
-                <label for="education">Education Level:</label>
-                <input type="text" id="education" placeholder="e.g., High School"><br>
-
-                <label for="lifeEvents">Significant Life Events:</label>
-                <textarea id="lifeEvents" placeholder="e.g., Moved to a new city at age 10"></textarea><br>
-
-                <button type="submit">Save Character</button>
+                <div id="historicalInputs">
+                    <!-- Dynamically populated per character -->
+                </div>
+                <div class="button-group">
+                    <button type="submit">Save All Characters</button>
+                    <button type="button" onclick="goToScenario()">Generate Scenario</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <!-- Fixed Half-Circle Visualization -->
     <div class="half-circle-container">
         <div id="coreViz"></div>
     </div>
