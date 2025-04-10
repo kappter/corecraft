@@ -1,77 +1,223 @@
 body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    text-align: center;
-}
-
-form {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #1a1a2e, #16213e); /* Dark cosmic gradient */
+    color: #e0e0e0;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
 }
 
-fieldset {
-    border: 1px solid #ccc;
-    padding: 10px;
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+
+.title {
     margin: 10px 0;
+    font-size: 2em;
+    color: #e0e0e0;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-label {
-    margin: 5px 0;
+.menu-strip {
+    width: 100%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 0 0 15px 15px;
 }
 
-input[type="number"], select, input[type="range"] {
-    margin-left: 5px;
+.menu-strip button, .menu-strip select {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
 }
 
-#coreVisualizer {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin: 20px auto;
+.menu-strip button:hover, .menu-strip select:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.content {
+    margin-top: 100px; /* Adjusted for title and menu */
+    padding: 20px;
+    padding-bottom: 220px;
+    overflow-y: auto;
+    height: calc(100vh - 100px);
+    box-sizing: border-box;
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1, h2, h3 {
+    color: #e0e0e0;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+input[type="text"], input[type="range"], input[type="number"], textarea {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+    padding: 8px;
+    border-radius: 8px;
+    margin: 5px;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+input[type="range"] {
+    width: 200px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: #e0e0e0;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+button:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    cursor: not-allowed;
+}
+
+/* Fixed Half-Circle Visualization */
+.half-circle-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 200px;
+    z-index: 10;
+    perspective: 1000px; /* Add perspective for 3D effect */
+}
+
+#coreViz {
+    position: absolute;
+    bottom: 0;
+    width: 400px;
+    height: 400px;
+    transform: translateY(50%);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    animation: rotateSphere 30s infinite linear; /* Subtle rotation for the whole sphere */
 }
 
 .layer {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px;
-    box-sizing: border-box;
-    color: white;
-    font-size: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQEBAAAAgiD/r25IQAEAAAAAAAAAAAD8AydcA3eIAAAAAElFTkSuQmCC');
+    background-blend-mode: overlay;
+    opacity: 0.8;
+    transition: all 0.5s ease;
+    animation: rotateLayer 20s infinite linear; /* Subtle counter-rotation for layers */
 }
 
-.innerCore {
-    width: 100px;
-    height: 100px;
-    background: #ff4444; /* Red for moral core */
+.layer.core-glow {
+    box-shadow: 0 0 20px 5px rgba(255, 165, 0, 0.8), inset 0 0 10px 2px rgba(255, 165, 0, 0.5);
 }
 
-.mantle {
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 165, 0, 0.7); /* Orange for history */
+/* Rotation Animations */
+@keyframes rotateSphere {
+    from {
+        transform: translateY(50%) rotateY(0deg);
+    }
+    to {
+        transform: translateY(50%) rotateY(360deg);
+    }
 }
 
-.crust {
-    width: 300px;
-    height: 300px;
-    background: rgba(0, 128, 0, 0.5); /* Green for persona */
+@keyframes rotateLayer {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(-360deg); /* Counter-rotation for depth */
+    }
 }
 
-#signatureCanvas {
-    display: block;
-    margin: 20px auto;
-    border: 1px solid #ccc;
+/* Light Mode */
+body.light-mode {
+    background: linear-gradient(to bottom, #e0e0e0, #b0b0b0);
+    color: #2c3e50;
+}
+
+body.light-mode .header,
+body.light-mode .menu-strip,
+body.light-mode input[type="text"],
+body.light-mode input[type="range"],
+body.light-mode input[type="number"],
+body.light-mode textarea,
+body.light-mode button {
+    background: rgba(255, 255, 255, 0.5);
+    color: #2c3e50;
+}
+
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3 {
+    color: #2c3e50;
+}
+
+/* Minimal Style */
+body.minimal {
+    background: #1a1a2e;
+}
+
+/* Retro Style */
+body.retro {
+    background: linear-gradient(to bottom, #8e44ad, #2980b9);
+    font-family: 'Courier New', monospace;
 }
