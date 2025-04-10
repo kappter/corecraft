@@ -1,4 +1,3 @@
-<!-- scenario.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,8 +20,17 @@
     </div>
     <div class="content">
         <h1>Scenario</h1>
+        <label for="settingSelect">Choose Setting:</label>
+        <select id="settingSelect" onchange="generateScenario()">
+            <option value="dystopian_city_2045">Dystopian City, 2045</option>
+            <option value="medieval_village_1320">Medieval Village, 1320</option>
+            <option value="space_colony_2300">Space Colony, 2300</option>
+        </select>
         <div id="scenarioOutput"></div>
-        <button onclick="generateScenario()">Regenerate Scenario</button>
+        <div class="button-group">
+            <button onclick="generateScenario()">Regenerate Scenario</button>
+            <button onclick="window.location.href='summary.html'">Back to Summary</button>
+        </div>
     </div>
     <script src="scenario.js"></script>
 </body>
