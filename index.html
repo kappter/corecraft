@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Fixed Header with Title and Menu -->
     <div class="header">
         <h1 class="title">CoreCraft</h1>
         <div class="menu-strip">
@@ -23,10 +22,10 @@
         </div>
     </div>
 
-    <!-- Scrollable Content -->
     <div class="content">
         <div id="generator">
             <input type="text" id="charName" placeholder="Character Name (optional)">
+            <p id="characterCount">Characters Created: 0 / 5</p> <!-- Added status -->
             <h2>Core Value Spectrum (Root Chakra)</h2>
             <label>Fearful <input type="range" id="coreSlider" min="-100" max="100" value="0" oninput="updateSliders()"> Secure</label>
             <p>Balance: Stable</p>
@@ -34,7 +33,6 @@
         <div id="customSpectrums">
             <h2>Define Your Spectrums (Chakras)</h2>
             <div id="spectrumInputs">
-                <!-- Spectrum 1: Sacral Chakra -->
                 <div>
                     <h3>Sacral Chakra (Creativity & Emotion)</h3>
                     <input type="text" id="left0" value="Repressed">
@@ -43,7 +41,6 @@
                     <br>
                     <input type="text" id="middle0" value="Expressive">
                 </div>
-                <!-- Spectrum 2: Solar Plexus Chakra -->
                 <div>
                     <h3>Solar Plexus Chakra (Power & Confidence)</h3>
                     <input type="text" id="left1" value="Timid">
@@ -52,7 +49,6 @@
                     <br>
                     <input type="text" id="middle1" value="Assertive">
                 </div>
-                <!-- Spectrum 3: Heart Chakra -->
                 <div>
                     <h3>Heart Chakra (Love & Compassion)</h3>
                     <input type="text" id="left2" value="Cold">
@@ -61,7 +57,6 @@
                     <br>
                     <input type="text" id="middle2" value="Kind">
                 </div>
-                <!-- Spectrum 4: Throat Chakra -->
                 <div>
                     <h3>Throat Chakra (Communication & Truth)</h3>
                     <input type="text" id="left3" value="Silent">
@@ -70,7 +65,6 @@
                     <br>
                     <input type="text" id="middle3" value="Honest">
                 </div>
-                <!-- Spectrum 5: Third Eye Chakra -->
                 <div>
                     <h3>Third Eye Chakra (Intuition & Wisdom)</h3>
                     <input type="text" id="left4" value="Unaware">
@@ -79,7 +73,6 @@
                     <br>
                     <input type="text" id="middle4" value="Perceptive">
                 </div>
-                <!-- Spectrum 6: Crown Chakra -->
                 <div>
                     <h3>Crown Chakra (Spirituality & Enlightenment)</h3>
                     <input type="text" id="left5" value="Disconnected">
@@ -92,11 +85,10 @@
         </div>
         <div class="button-group">
             <button onclick="generateCharacter()">Generate Character</button>
-            <button id="continueButton" onclick="goToSummary()" disabled>Continue</button>
+            <button id="continueButton" onclick="goToSummary()" disabled>Continue to Summary</button>
         </div>
     </div>
 
-    <!-- Fixed Half-Circle Visualization -->
     <div class="half-circle-container">
         <div id="coreViz"></div>
     </div>
