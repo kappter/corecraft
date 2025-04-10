@@ -1,4 +1,3 @@
-// In script.js
 let characterCount = 0;
 const maxCharacters = 5;
 let allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
@@ -45,8 +44,9 @@ function goToSummary() {
     localStorage.setItem("allCharacters", JSON.stringify(allCharacters));
     characterCount++;
 
+    console.log("Current allCharacters:", allCharacters); // Debug log
+
     if (characterCount < maxCharacters && confirm(`Character ${characterCount} saved. Add another? (Up to ${maxCharacters})`)) {
-        // Reset form for next character
         document.getElementById("charName").value = "";
         sliders.forEach(slider => slider.value = 0);
         updateSliders();
