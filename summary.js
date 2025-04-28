@@ -3,7 +3,9 @@ const chakraColors = [
 ];
 const chakraNames = [
     "Root Chakra (Survival)", "Sacral Chakra (Creativity)", "Solar Plexus Chakra (Power)",
-    "Heart Chakra (Love)", "Throat Chakra (Communication)", "Third Eye Chakra (Intплата: ["Root Chakra (Survival)", "Sacral Chakra (Creativity)", "Solar Plexus Chakra (Power)", "Heart Chakra (Love)", "Throat Chakra (Communication)", "Third Eye Chakra (Intuition)", "Crown Chakra (Spirituality)"];
+    "Heart Chakra (Love)", "Throat Chakra (Communication)", "Third Eye Chakra (Intuition)",
+    "Crown Chakra (Spirituality)"
+];
 
 const questions = [
     "What is their greatest strength?", "What haunts them from their past?",
@@ -12,76 +14,90 @@ const questions = [
     "How do they connect with others?"
 ];
 
-const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
+const character = JSON.parse(localStorage.getItem("character")) || null;
 const historicalInputs = document.getElementById("historicalInputs");
 
-allCharacters.forEach((char, charIdx) => {
-    historicalInputs.innerHTML += `
-        <h4>${char.name}</h4>
-        <label for="region_${charIdx}">Region:</label>
-        <input type="text" id="region_${charIdx}" value="${char.historicalData?.region || ''}" placeholder="e.g., North America"><br>
-        <label for="yearOfBirth_${charIdx}">Year of Birth:</label>
-        <input type="number" id="yearOfBirth_${charIdx}" value="${char.historicalData?.yearOfBirth || ''}" placeholder="e.g., 1990"><br>
-        <label for="motherAge_${charIdx}">Mother's Age:</label>
-        <input type="number" id="motherAge_${charIdx}" value="${char.historicalData?.motherAge || ''}" placeholder="e.g., 30"><br>
-        <label for="fatherAge_${charIdx}">Father's Age:</label>
-        <input type="number" id="fatherAge_${charIdx}" value="${char.historicalData?.fatherAge || ''}" placeholder="e.g., 35"><br>
-        <label for="siblings_${charIdx}">Siblings:</label>
-        <input type="number" id="siblings_${charIdx}" value="${char.historicalData?.siblings || ''}" placeholder="e.g., 2"><br>
-        <label for="education_${charIdx}">Education:</label>
-        <input type="text" id="education_${charIdx}" value="${char.historicalData?.education || ''}" placeholder="e.g., High School"><br>
-        <label for="lifeEvents_${charIdx}">Life Events:</label>
-        <textarea id="lifeEvents_${charIdx}" placeholder="e.g., Moved at age 10">${char.historicalData?.lifeEvents || ''}</textarea><br>
+if (character) {
+    historicalInputs.innerHTML = `
+        <h4>${character.name}</h4>
+        <label for="region">Region:</label>
+        <input type="text" id="region" value="${character.historicalData?.region || ''}" placeholder="e.g., North America"><br>
+        <label for="yearOfBirth">Year of Birth:</label>
+        <input type="number" id="yearOfBirth" value="${character.historicalData?.yearOfBirth || ''}" placeholder="e.g., 1990"><br>
+        <label for="motherAge">Mother's Age:</label>
+        <input type="number" id="motherAge" value="${character.historicalData?.motherAge || ''}" placeholder="e.g., 30"><br>
+        <label for="fatherAge">Father's Age:</label>
+        <input type="number" id="fatherAge" value="${character.historicalData?.fatherAge || ''}" placeholder="e.g., 35"><br>
+        <label for="siblings">Siblings:</label>
+        <input type="number" id="siblings" value="${character.historicalData?.siblings || ''}" placeholder="e.g., 2"><br>
+        <label for="education">Education:</label>
+        <input type="text" id="education" value="${character.historicalData?.education || ''}" placeholder="e.g., High School"><br>
+        <label for="lifeEvents">Life Events:</label>
+        <textarea id="lifeEvents" placeholder="e.g., Moved at age 10">${character.historicalData?.lifeEvents || ''}</textarea><br>
     `;
-});
+}
 
-document.getElementById("characterName").innerText = "Multiple Characters";
+document.getElementById("characterName").innerText = character ? character.name : "Character";
 const chakraProfile = document.getElementById("chakraProfile");
 chakraProfile.innerHTML = "";
-allCharacters.forEach((char, idx) => {
-    chakraProfile.innerHTML += `<h3>${char.name}</h3>`;
-    chakraProfile.innerHTML += `<p style="color: ${chakraColors[0]}"><strong>${chakraNames[0]}:</strong> ${char.sliderValues[0] < 0 ? "Fearful" : char.sliderValues[0] > 0 ? "Secure" : "Stable"} (${Math.round(char.points[0])} points)</p>`;
-    char.spectrums.forEach((s, i) => {
-        chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(char.points[i + 1])} points)</p>`;
+if (character) {
+    chakraProfile.innerHTML += `<h3>${character.name}</h3>`;
+    chakraProfile.innerHTML += `<p style="color: ${chakraColors[0]}"><strong>${chakraNames[0]}:</strong> ${character.sliderValues[0] < 0 ? "Fearful" : character.sliderValues[0] > 0 ? "Secure" : "Stable"} (${Math.round(character.points[0])} points)</p>`;
+    character.spectrums.forEach((s, i) => {
+        chakraProfile.innerHTML += `<p style="color: ${chakraColors[i + 1]}"><strong>${chakraNames[i + 1]}:</strong> ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(character.points[i + 1])} points)</p>`;
     });
-});
+}
 
 const details = document.getElementById("questions");
-allCharacters.forEach((char, charIdx) => {
-    details.innerHTML += `<h4>${char.name}</h4>`;
+if (character) {
+    details.innerHTML += `<h4>${character.name}</h4>`;
     questions.forEach((q, qIdx) => {
         const p = document.createElement("p");
-        p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer_${charIdx}_${qIdx}" placeholder="Type your answer" value="${char.answers[qIdx] || ''}">`;
+        p.innerHTML = `<strong>${q}</strong><br><input type="text" id="answer_${qIdx}" placeholder="Type your answer" value="${character.answers[qIdx] || ''}">`;
         details.appendChild(p);
     });
-});
+}
 
 const form = document.getElementById("historicalForm");
 form.addEventListener("submit", function(event) {
     event.preventDefault();
-    allCharacters.forEach((char, charIdx) => {
-        const historicalData = {
-            region: document.getElementById(`region_${charIdx}`).value,
-            yearOfBirth: document.getElementById(`yearOfBirth_${charIdx}`).value,
-            motherAge: document.getElementById(`motherAge_${charIdx}`).value,
-            fatherAge: document.getElementById(`fatherAge_${charIdx}`).value,
-            siblings: document.getElementById(`siblings_${charIdx}`).value,
-            education: document.getElementById(`education_${charIdx}`).value,
-            lifeEvents: document.getElementById(`lifeEvents_${charIdx}`).value
-        };
-        const answers = questions.map((_, qIdx) => document.getElementById(`answer_${charIdx}_${qIdx}`).value || "");
-        char.historicalData = historicalData;
-        char.answers = answers;
-    });
-    localStorage.setItem("allCharacters", JSON.stringify(allCharacters));
-    console.log("Saved allCharacters:", allCharacters);
-    alert("Characters saved successfully!");
-    updateChakraViz();
+    console.log("Historical form submitted");
+    try {
+        if (character) {
+            const historicalData = {
+                region: document.getElementById("region")?.value || "",
+                yearOfBirth: document.getElementById("yearOfBirth")?.value || "",
+                motherAge: document.getElementById("motherAge")?.value || "",
+                fatherAge: document.getElementById("fatherAge")?.value || "",
+                siblings: document.getElementById("siblings")?.value || "",
+                education: document.getElementById("education")?.value || "",
+                lifeEvents: document.getElementById("lifeEvents")?.value || ""
+            };
+            const answers = questions.map((_, qIdx) => document.getElementById(`answer_${qIdx}`)?.value || "");
+            character.historicalData = historicalData;
+            character.answers = answers;
+            localStorage.setItem("character", JSON.stringify(character));
+            console.log("Character updated:", character);
+            alert("Character saved successfully!");
+            updateChakraViz();
+        }
+    } catch (error) {
+        console.error("Error saving character:", error);
+        alert("Failed to save character. Check console for details.");
+    }
 });
 
 function goToScenario() {
+    console.log("Navigating to scenario.html");
     window.location.href = "scenario.html";
 }
 
 // Initialize visualization
-updateChakraViz();
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("summary.js loaded and initializing visualization");
+    try {
+        updateChakraViz();
+    } catch (error) {
+        console.error("Error initializing visualization in summary.js:", error);
+    }
+});
