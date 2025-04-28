@@ -1,6 +1,3 @@
-let characterCount = 0;
-const maxCharacters = 5;
-let allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
 const TOTAL_POINTS = 100;
 
 function sliderToWeight(sliderValue) {
@@ -67,7 +64,7 @@ function generateCharacter() {
 function goToSummary() {
     console.log("goToSummary called");
     try {
-        const name = document.getElementById("charName").value || `Character ${characterCount + 1}`;
+        const name = document.getElementById("charName").value || "Character";
         const sliders = [
             document.getElementById("coreSlider"),
             document.getElementById("slider0"),
@@ -99,21 +96,9 @@ function goToSummary() {
             answers: []
         };
 
-        allCharacters.push(characterData);
-        localStorage.setItem("allCharacters", JSON.stringify(allCharacters));
-        characterCount++;
-        document.getElementById("characterCount").innerText = `Characters Created: ${characterCount} / 5`;
-
-        console.log("Current allCharacters:", allCharacters);
-
-        if (characterCount < maxCharacters && confirm(`Character ${characterCount} saved. Add another? (Up to ${maxCharacters})`)) {
-            document.getElementById("charName").value = "";
-            sliders.forEach(slider => { if (slider) slider.value = 0; });
-            updateSliders();
-            document.getElementById("continueButton").disabled = true;
-        } else {
-            window.location.href = "summary.html";
-        }
+        localStorage.setItem("character", JSON.stringify(characterData));
+        console.log("Character saved:", characterData);
+        window.location.href = "summary.html";
     } catch (error) {
         console.error("Error in goToSummary:", error);
         alert("Failed to save character. Check console for details.");
