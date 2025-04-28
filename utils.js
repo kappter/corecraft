@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CoreCraft - Scenario</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">CoreCraft</h1>
+        <div class="menu-strip">
+            <button onclick="toggleLightMode()">Light Mode</button>
+            <select onchange="changeStyle(this.value)">
+                <option value="default">Default Style</option>
+                <option value="minimal">Minimal</option>
+                <option value="retro">Retro</option>
+            </select>
+        </div>
+    </div>
+    <div class="content">
+        <h1>Scenario</h1>
+        <label for="settingSelect">Choose Setting:</label>
+        <select id="settingSelect" onchange="generateScenario()">
+            <option value="dystopian_city_2045">Dystopian City, 2045</option>
+            <option value="medieval_village_1320">Medieval Village, 1320</option>
+            <option value="space_colony_2300">Space Colony, 2300</option>
+        </select>
+        <div id="scenarioOutput"></div>
+        <div class="chakra-bar-container" id="chakraViz"></div>
+        <div class="button-group">
+            <button onclick="generateScenario()">Regenerate Scenario</button>
+            <button onclick="window.location.href='summary.html'">Back to Summary</button>
+        </div>
+    </div>
+    <script src="scenario.js"></script>
+    <script src="utils.js"></script>
+</body>
+</html>
