@@ -51,6 +51,7 @@ function generateCharacter() {
         const hasNonZero = sliders.some(slider => slider && parseInt(slider.value) !== 0);
         if (hasNonZero) {
             document.getElementById("continueButton").disabled = false;
+            alert("Character generated! Click 'Continue to Summary' to save and proceed.");
             console.log("Continue button enabled");
         } else {
             alert("Please adjust at least one chakra slider to generate a character.");
@@ -102,6 +103,29 @@ function goToSummary() {
     } catch (error) {
         console.error("Error in goToSummary:", error);
         alert("Failed to save character. Check console for details.");
+    }
+}
+
+function toggleLightMode() {
+    console.log("toggleLightMode called");
+    try {
+        document.body.classList.toggle("light-mode");
+    } catch (error) {
+        console.error("Error in toggleLightMode:", error);
+        alert("Failed to toggle light mode. Check console for details.");
+    }
+}
+
+function changeStyle(style) {
+    console.log("changeStyle called with style:", style);
+    try {
+        document.body.classList.remove("default", "minimal", "retro");
+        if (style && style !== "default") {
+            document.body.classList.add(style);
+        }
+    } catch (error) {
+        console.error("Error in changeStyle:", error);
+        alert("Failed to change style. Check console for details.");
     }
 }
 
