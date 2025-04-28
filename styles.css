@@ -2,8 +2,8 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #1a1a2e, #16213e); /* Dark cosmic gradient */
-    color: #e0e0e0;
+    background: linear-gradient(to bottom, #121212, #1e1e2f); /* Darker, professional gradient */
+    color: #d0d0d0;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
@@ -18,180 +18,154 @@ body {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
+    background: rgba(18, 18, 18, 0.95); /* Solid dark header */
+    padding: 10px 0;
 }
 
 .title {
-    margin: 10px 0;
-    font-size: 2em;
-    color: #e0e0e0;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    margin: 5px 0;
+    font-size: 1.8em;
+    color: #ffffff;
+    text-shadow: none; /* Remove glow for professionalism */
 }
 
 .menu-strip {
     width: 100%;
-    max-width: 800px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    padding: 10px;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 0 0 15px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
 }
 
 .menu-strip button, .menu-strip select {
-    background: rgba(255, 255, 255, 0.2);
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    color: #e0e0e0;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: #d0d0d0;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.2s, transform 0.1s;
+    font-size: 0.9em;
 }
 
 .menu-strip button:hover, .menu-strip select:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 .content {
-    margin-top: 100px; /* Adjusted for title and menu */
-    padding: 20px;
-    padding-bottom: 220px;
+    margin-top: 80px; /* Reduced for tighter layout */
+    padding: 15px;
     overflow-y: auto;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 80px);
     box-sizing: border-box;
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
     display: flex;
+    flexycle: flex;
     flex-direction: column;
     align-items: center;
 }
 
 h1, h2, h3 {
-    color: #e0e0e0;
+    color: #ffffff;
     text-align: center;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
+    margin: 10px 0;
+    font-weight: 500;
 }
 
 input[type="text"], input[type="range"], input[type="number"], textarea {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #e0e0e0;
-    padding: 8px;
-    border-radius: 8px;
-    margin: 5px;
-    transition: border 0.3s;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #d0d0d0;
+    padding: 6px;
+    border-radius: 6px;
+    margin: 4px 0;
+    transition: border 0.2s;
+    font-size: 0.9em;
 }
 
 input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 input[type="range"] {
-    width: 200px;
+    width: 180px;
 }
 
 .button-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
-    margin-top: 20px;
+    margin: 15px 0;
 }
 
 button {
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    color: #e0e0e0;
-    border: none;
-    border-radius: 20px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #d0d0d0;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.2s, transform 0.1s;
+    font-size: 0.9em;
 }
 
 button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 button:disabled {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.03);
     cursor: not-allowed;
 }
 
-/* Fixed Half-Circle Visualization */
-.half-circle-container {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
-    height: 200px;
-    z-index: 10;
-    perspective: 1000px; /* Add perspective for 3D effect */
+/* Chakra Bar Visualization */
+.chakra-bar-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 20px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-#coreViz {
-    position: absolute;
-    bottom: 0;
-    width: 400px;
-    height: 400px;
-    transform: translateY(50%);
-    border-radius: 50%;
+.chakra-bar {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.chakra-bar-label {
+    width: 150px;
+    font-size: 0.9em;
+    color: #d0d0d0;
+}
+
+.chakra-bar-track {
+    flex-grow: 1;
+    height: 10px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
-    animation: rotateSphere 30s infinite linear; /* Subtle rotation for the whole sphere */
+    border-radius: 5px;
+    position: relative;
 }
 
-.layer {
-    position: absolute;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAA1BMVEX///+nxBvIAAAAAXRSTlMAQObYZgAAAB1JREFUeNrtwQEBAAAAgiD/r25IQAEAAAAAAAAAAAD8AydcA3eIAAAAAElFTkSuQmCC');
-    background-blend-mode: overlay;
-    opacity: 0.8;
-    transition: all 0.5s ease;
-    animation: rotateLayer 20s infinite linear; /* Subtle counter-rotation for layers */
-}
-
-.layer.core-glow {
-    box-shadow: 0 0 20px 5px rgba(255, 165, 0, 0.8), inset 0 0 10px 2px rgba(255, 165, 0, 0.5);
-}
-
-/* Rotation Animations */
-@keyframes rotateSphere {
-    from {
-        transform: translateY(50%) rotateY(0deg);
-    }
-    to {
-        transform: translateY(50%) rotateY(360deg);
-    }
-}
-
-@keyframes rotateLayer {
-    from {
-        transform: rotateY(0deg);
-    }
-    to {
-        transform: rotateY(-360deg); /* Counter-rotation for depth */
-    }
+.chakra-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.3s ease;
 }
 
 /* Light Mode */
 body.light-mode {
-    background: linear-gradient(to bottom, #e0e0e0, #b0b0b0);
-    color: #2c3e50;
+    background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
+    color: #333333;
 }
 
 body.light-mode .header,
@@ -201,23 +175,32 @@ body.light-mode input[type="range"],
 body.light-mode input[type="number"],
 body.light-mode textarea,
 body.light-mode button {
-    background: rgba(255, 255, 255, 0.5);
-    color: #2c3e50;
+    background: rgba(255, 255, 255, 0.7);
+    color: #333333;
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 body.light-mode h1,
 body.light-mode h2,
 body.light-mode h3 {
-    color: #2c3e50;
+    color: #333333;
+}
+
+body.light-mode .chakra-bar-container {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .chakra-bar-track {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 /* Minimal Style */
 body.minimal {
-    background: #1a1a2e;
+    background: #121212;
 }
 
 /* Retro Style */
 body.retro {
-    background: linear-gradient(to bottom, #8e44ad, #2980b9);
+    background: linear-gradient(to bottom, #6b3e8e, #1e6091);
     font-family: 'Courier New', monospace;
 }
