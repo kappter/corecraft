@@ -8,6 +8,7 @@ function sliderToWeight(sliderValue) {
 }
 
 function updateSliders() {
+    console.log("updateSliders called");
     try {
         const sliders = [
             document.getElementById("coreSlider"),
@@ -27,13 +28,18 @@ function updateSliders() {
             const value = document.getElementById(`slider${i}`)?.value || 0;
             spectrums.push({ left, right, middle, value });
         }
-        updateChakraViz({ sliderValues, spectrums });
+        if (typeof updateChakraViz === "function") {
+            updateChakraViz({ sliderValues, spectrums });
+        } else {
+            console.warn("updateChakraViz is not defined, skipping visualization");
+        }
     } catch (error) {
         console.error("Error in updateSliders:", error);
     }
 }
 
 function generateCharacter() {
+    console.log("generateCharacter called");
     try {
         updateSliders();
         const sliders = [
@@ -48,6 +54,7 @@ function generateCharacter() {
         const hasNonZero = sliders.some(slider => slider && parseInt(slider.value) !== 0);
         if (hasNonZero) {
             document.getElementById("continueButton").disabled = false;
+            console.log("Continue button enabled");
         } else {
             alert("Please adjust at least one chakra slider to generate a character.");
         }
@@ -58,6 +65,7 @@ function generateCharacter() {
 }
 
 function goToSummary() {
+    console.log("goToSummary called");
     try {
         const name = document.getElementById("charName").value || `Character ${characterCount + 1}`;
         const sliders = [
@@ -112,10 +120,14 @@ function goToSummary() {
     }
 }
 
-// Initialize visualization
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("script.js loaded and initializing");
     try {
-        updateChakraViz();
+        if (typeof updateChakraViz === "function") {
+            updateChakraViz();
+        } else {
+            console.warn("updateChakraViz is not defined during initialization");
+        }
     } catch (error) {
         console.error("Error initializing visualization in script.js:", error);
     }
