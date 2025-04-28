@@ -3,9 +3,8 @@ const chakraColors = [
 ];
 const chakraNames = [
     "Root Chakra (Survival)", "Sacral Chakra (Creativity)", "Solar Plexus Chakra (Power)",
-    "Heart Chakra (Love)", "Throat Chakra (Communication)", "Third Eye Chakra (Intuition)",
-    "Crown Chakra (Spirituality)"
-];
+    "Heart Chakra (Love)", "Throat Chakra (Communication)", "Third Eye Chakra (Intплата: ["Root Chakra (Survival)", "Sacral Chakra (Creativity)", "Solar Plexus Chakra (Power)", "Heart Chakra (Love)", "Throat Chakra (Communication)", "Third Eye Chakra (Intuition)", "Crown Chakra (Spirituality)"];
+
 const questions = [
     "What is their greatest strength?", "What haunts them from their past?",
     "Have they ever been abused or hurt others?", "What’s their relationship with money?",
@@ -13,8 +12,9 @@ const questions = [
     "How do they connect with others?"
 ];
 
-// Add after questions section
+const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
 const historicalInputs = document.getElementById("historicalInputs");
+
 allCharacters.forEach((char, charIdx) => {
     historicalInputs.innerHTML += `
         <h4>${char.name}</h4>
@@ -34,8 +34,6 @@ allCharacters.forEach((char, charIdx) => {
         <textarea id="lifeEvents_${charIdx}" placeholder="e.g., Moved at age 10">${char.historicalData?.lifeEvents || ''}</textarea><br>
     `;
 });
-
-const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
 
 document.getElementById("characterName").innerText = "Multiple Characters";
 const chakraProfile = document.getElementById("chakraProfile");
@@ -59,9 +57,6 @@ allCharacters.forEach((char, charIdx) => {
 });
 
 const form = document.getElementById("historicalForm");
-form.innerHTML += `<button type="button" onclick="goToScenario()">Generate Scenario</button>`;
-
-// Update form submission
 form.addEventListener("submit", function(event) {
     event.preventDefault();
     allCharacters.forEach((char, charIdx) => {
@@ -81,8 +76,12 @@ form.addEventListener("submit", function(event) {
     localStorage.setItem("allCharacters", JSON.stringify(allCharacters));
     console.log("Saved allCharacters:", allCharacters);
     alert("Characters saved successfully!");
+    updateChakraViz();
 });
 
 function goToScenario() {
     window.location.href = "scenario.html";
 }
+
+// Initialize visualization
+updateChakraViz();
