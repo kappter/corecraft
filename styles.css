@@ -2,9 +2,8 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to bottom, #121212, #1e1e2f); /* Darker, professional gradient */
+    background: linear-gradient(to bottom, #121212, #1e1e2f);
     color: #d0d0d0;
-    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,7 +17,7 @@ body {
     flex-direction: column;
     align-items: center;
     z-index: 1000;
-    background: rgba(18, 18, 18, 0.95); /* Solid dark header */
+    background: rgba(18, 18, 18, 0.95);
     padding: 10px 0;
 }
 
@@ -26,7 +25,6 @@ body {
     margin: 5px 0;
     font-size: 1.8em;
     color: #ffffff;
-    text-shadow: none; /* Remove glow for professionalism */
 }
 
 .menu-strip {
@@ -58,17 +56,14 @@ body {
 }
 
 .content {
-    margin-top: 80px; /* Reduced for tighter layout */
-    padding: 15px;
-    overflow-y: auto;
-    height: calc(100vh - 80px);
-    box-sizing: border-box;
+    margin-top: 80px;
+    padding: 20px;
     max-width: 900px;
     width: 100%;
     display: flex;
-    flexycle: flex;
     flex-direction: column;
     align-items: center;
+    min-height: calc(100vh - 80px); /* Ensure content fills viewport */
 }
 
 h1, h2, h3 {
@@ -87,6 +82,7 @@ input[type="text"], input[type="range"], input[type="number"], textarea {
     margin: 4px 0;
     transition: border 0.2s;
     font-size: 0.9em;
+    width: calc(100% - 14px); /* Ensure input fits container */
 }
 
 input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
