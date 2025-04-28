@@ -8,6 +8,7 @@ const chakraNames = [
 ];
 
 function updateChakraViz(character = null) {
+    console.log("updateChakraViz called with character:", character);
     const vizContainer = document.getElementById("chakraViz");
     if (!vizContainer) {
         console.error("Chakra visualization container not found");
@@ -19,10 +20,8 @@ function updateChakraViz(character = null) {
 
     try {
         if (character) {
-            // Single character visualization (index.html)
             renderChakraBars(vizContainer, character, "Character");
         } else {
-            // Multiple characters (summary.html, scenario.html)
             allCharacters.forEach((char, idx) => {
                 renderChakraBars(vizContainer, char, char.name);
             });
@@ -33,6 +32,7 @@ function updateChakraViz(character = null) {
 }
 
 function renderChakraBars(container, character, title) {
+    console.log(`Rendering chakra bars for ${title}`);
     const div = document.createElement("div");
     div.innerHTML = `<h3>${title}</h3>`;
     try {
@@ -55,6 +55,7 @@ function renderChakraBars(container, character, title) {
 }
 
 function copyCharacterPrompt() {
+    console.log("copyCharacterPrompt called");
     const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
     const questions = [
         "What is their greatest strength?", "What haunts them from their past?",
@@ -98,9 +99,9 @@ function copyCharacterPrompt() {
     }
 }
 
-// Update visualization when sliders change
 document.addEventListener("input", (e) => {
     if (e.target.type === "range" && e.target.id.includes("slider")) {
+        console.log("Slider input detected:", e.target.id);
         try {
             const sliders = [
                 document.getElementById("coreSlider"),
@@ -127,8 +128,8 @@ document.addEventListener("input", (e) => {
     }
 });
 
-// Initialize visualization on page load
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("utils.js loaded and initializing visualization");
     try {
         updateChakraViz();
     } catch (error) {
