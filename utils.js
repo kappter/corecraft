@@ -99,6 +99,73 @@ function copyCharacterPrompt() {
     }
 }
 
+function printCharacter() {
+    console.log("printCharacter called");
+    const character = JSON.parse(localStorage.getItem("character"));
+    const questions = [
+        "What is their greatest strength?", "What haunts them from their past?",
+        "Have they ever been abused or hurt others?", "What’s their relationship with money?",
+        "Have they faced loss (job, love, health)?", "What’s their moral breaking point?",
+        "How do they connect with others?"
+    ];
+
+    try {
+        if (!character) {
+            alert("No character data found to print. Please generate a character first.");
+            return;
+        }
+
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title>CoreCraft Character - ${character.name}</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    h1 { text-align: center; }
+                    h2 { margin-top: 20px; }
+                    p { margin: 5px 0; }
+                    .chakra { color: #333; }
+                </style>
+            </head>
+            <body>
+                <h1>CoreCraft Character: ${character.name}</h1>
+                <h2>Chakra Profile</h2>
+                <p class="chakra">${chakraNames[0]}: ${character.sliderValues[0] < 0 ? "Fearful" : character.sliderValues[0] > 0 ? "Secure" : "Stable"} (${Math.round(character.points[0])} points)</p>
+        `);
+        character.spectrums.forEach((s, i) => {
+            printWindow.document.write(`
+                <p class="chakra">${chakraNames[i + 1]}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(character.points[i + 1])} points)</p>
+            `);
+        });
+        printWindow.document.write(`
+                <h2>Details</h2>
+        `);
+        questions.forEach((q, qIdx) => {
+            printWindow.document.write(`
+                <p><strong>${q}</strong> ${character.answers[qIdx] || "Not specified"}</p>
+            `);
+        });
+        printWindow.document.write(`
+                <h2>Historical Data</h2>
+                <p><strong>Region:</strong> ${character.historicalData?.region || "Not specified"}</p>
+                <p><strong>Year of Birth:</strong> ${character.historicalData?.yearOfBirth || "Not specified"}</p>
+                <p><strong>Mother's Age:</strong> ${character.historicalData?.motherAge || "Not specified"}</p>
+                <p><strong>Father's Age:</strong> ${character.historicalData?.fatherAge || "Not specified"}</p>
+                <p><strong>Siblings:</strong> ${character.historicalData?.siblings || "Not specified"}</p>
+                <p><strong>Education:</strong> ${character.historicalData?.education || "Not specified"}</p>
+                <p><strong>Life Events:</strong> ${character.historicalData?.lifeEvents || "Not specified"}</p>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+    } catch (error) {
+        console.error("Error in printCharacter:", error);
+        alert("Failed to print character. Check console for details.");
+    }
+}
+
 document.addEventListener("input", (e) => {
     if (e.target.type === "range" && e.target.id.includes("slider")) {
         console.log("Slider input detected:", e.target.id);
