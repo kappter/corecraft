@@ -25,7 +25,7 @@
     <div class="content">
         <div id="generator">
             <input type="text" id="charName" placeholder="Character Name (optional)">
-            <p id="characterCount">Characters Created: 0 / 5</p> <!-- Added status -->
+            <p id="characterCount">Characters Created: 0 / 5</p>
             <h2>Core Value Spectrum (Root Chakra)</h2>
             <label>Fearful <input type="range" id="coreSlider" min="-100" max="100" value="0" oninput="updateSliders()"> Secure</label>
             <p>Balance: Stable</p>
@@ -83,16 +83,14 @@
                 </div>
             </div>
         </div>
+        <div class="chakra-bar-container" id="chakraViz"></div>
         <div class="button-group">
             <button onclick="generateCharacter()">Generate Character</button>
             <button id="continueButton" onclick="goToSummary()" disabled>Continue to Summary</button>
         </div>
     </div>
 
-    <div class="half-circle-container">
-        <div id="coreViz"></div>
-    </div>
-
     <script src="script.js"></script>
+    <script src="utils.js"></script>
 </body>
 </html>
