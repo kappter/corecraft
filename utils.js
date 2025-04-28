@@ -16,15 +16,14 @@ function updateChakraViz(character = null) {
     }
 
     vizContainer.innerHTML = "";
-    const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
-
     try {
         if (character) {
-            renderChakraBars(vizContainer, character, "Character");
+            renderChakraBars(vizContainer, character, character.name || "Character");
         } else {
-            allCharacters.forEach((char, idx) => {
-                renderChakraBars(vizContainer, char, char.name);
-            });
+            const storedCharacter = JSON.parse(localStorage.getItem("character"));
+            if (storedCharacter) {
+                renderChakraBars(vizContainer, storedCharacter, storedCharacter.name || "Character");
+            }
         }
     } catch (error) {
         console.error("Error updating chakra visualization:", error);
@@ -56,7 +55,7 @@ function renderChakraBars(container, character, title) {
 
 function copyCharacterPrompt() {
     console.log("copyCharacterPrompt called");
-    const allCharacters = JSON.parse(localStorage.getItem("allCharacters")) || [];
+    const character = JSON.parse(localStorage.getItem("character"));
     const questions = [
         "What is their greatest strength?", "What haunts them from their past?",
         "Have they ever been abused or hurt others?", "What’s their relationship with money?",
@@ -66,26 +65,27 @@ function copyCharacterPrompt() {
 
     let prompt = "CoreCraft Character Summary\n\n";
     try {
-        allCharacters.forEach((char, idx) => {
-            prompt += `Character ${idx + 1}: ${char.name}\n`;
-            prompt += `Chakra Profile:\n`;
-            prompt += `${chakraNames[0]}: ${char.sliderValues[0] < 0 ? "Fearful" : char.sliderValues[0] > 0 ? "Secure" : "Stable"} (${Math.round(char.points[0])} points)\n`;
-            char.spectrums.forEach((s, i) => {
-                prompt += `${chakraNames[i + 1]}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(char.points[i + 1])} points)\n`;
-            });
-            prompt += `\nDetails:\n`;
-            questions.forEach((q, qIdx) => {
-                prompt += `${q}: ${char.answers[qIdx] || "Not specified"}\n`;
-            });
-            prompt += `\nHistorical Data:\n`;
-            prompt += `Region: ${char.historicalData?.region || "Not specified"}\n`;
-            prompt += `Year of Birth: ${char.historicalData?.yearOfBirth || "Not specified"}\n`;
-            prompt += `Mother's Age: ${char.historicalData?.motherAge || "Not specified"}\n`;
-            prompt += `Father's Age: ${char.historicalData?.fatherAge || "Not specified"}\n`;
-            prompt += `Siblings: ${char.historicalData?.siblings || "Not specified"}\n`;
-            prompt += `Education: ${char.historicalData?.education || "Not specified"}\n`;
-            prompt += `Life Events: ${char.historicalData?.lifeEvents || "Not specified"}\n\n`;
+        if (!character) {
+            throw new Error("No character data found");
+        }
+        prompt += `Character: ${character.name}\n`;
+        prompt += `Chakra Profile:\n`;
+        prompt += `${chakraNames[0]}: ${character.sliderValues[0] < 0 ? "Fearful" : character.sliderValues[0] > 0 ? "Secure" : "Stable"} (${Math.round(character.points[0])} points)\n`;
+        character.spectrums.forEach((s, i) => {
+            prompt += `${chakraNames[i + 1]}: ${s.value < 0 ? s.left : s.value > 0 ? s.right : s.middle} (${Math.round(character.points[i + 1])} points)\n`;
         });
+        prompt += `\nDetails:\n`;
+        questions.forEach((q, qIdx) => {
+            prompt += `${q}: ${character.answers[qIdx] || "Not specified"}\n`;
+        });
+        prompt += `\nHistorical Data:\n`;
+        prompt += `Region: ${character.historicalData?.region || "Not specified"}\n`;
+        prompt += `Year of Birth: ${character.historicalData?.yearOfBirth || "Not specified"}\n`;
+        prompt += `Mother's Age: ${character.historicalData?.motherAge || "Not specified"}\n`;
+        prompt += `Father's Age: ${character.historicalData?.fatherAge || "Not specified"}\n`;
+        prompt += `Siblings: ${character.historicalData?.siblings || "Not specified"}\n`;
+        prompt += `Education: ${character.historicalData?.education || "Not specified"}\n`;
+        prompt += `Life Events: ${character.historicalData?.lifeEvents || "Not specified"}\n`;
 
         navigator.clipboard.writeText(prompt).then(() => {
             alert("Character prompt copied to clipboard!");
