@@ -28,27 +28,24 @@
             <h2 id="characterName">Multiple Characters</h2>
             <h3>Chakra Profiles</h3>
             <div id="chakraProfile"></div>
+            <div class="chakra-bar-container" id="chakraViz"></div>
             <div id="details">
                 <h3>Character Details</h3>
                 <div id="questions"></div>
             </div>
             <h3>Historical Information</h3>
             <form id="historicalForm">
-                <div id="historicalInputs">
-                    <!-- Dynamically populated per character -->
-                </div>
+                <div id="historicalInputs"></div>
                 <div class="button-group">
                     <button type="submit">Save All Characters</button>
+                    <button type="button" onclick="copyCharacterPrompt()">Copy Prompt</button>
                     <button type="button" onclick="goToScenario()">Generate Scenario</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div class="half-circle-container">
-        <div id="coreViz"></div>
-    </div>
-
     <script src="summary.js"></script>
+    <script src="utils.js"></script>
 </body>
 </html>
