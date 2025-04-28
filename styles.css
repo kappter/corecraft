@@ -56,8 +56,8 @@ body {
 }
 
 .content {
-    margin-top: 150px; /* Increased to ensure content clears header */
-    padding: 30px;
+    margin-top: 160px; /* Increased to clear header */
+    padding: 40px;
     max-width: 900px;
     width: 100%;
     display: flex;
@@ -67,14 +67,14 @@ body {
 
 #charName {
     width: calc(100% - 20px);
-    padding: 12px;
-    margin: 15px 0;
-    font-size: 1.1em;
-    background: rgba(255, 255, 255, 0.15);
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    font-size: 1.2em;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
     color: #ffffff;
-    z-index: 10; /* Ensure input is above other elements */
+    z-index: 10;
 }
 
 h1, h2, h3 {
